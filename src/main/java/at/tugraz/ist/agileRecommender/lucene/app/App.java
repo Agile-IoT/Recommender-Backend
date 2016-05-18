@@ -1,6 +1,9 @@
 package at.tugraz.ist.agileRecommender.lucene.app;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 public class App  {
+	
 	
 	public String title;
 	//public String content;

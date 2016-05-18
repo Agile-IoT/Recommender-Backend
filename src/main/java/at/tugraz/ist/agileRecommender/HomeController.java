@@ -1,6 +1,8 @@
 package at.tugraz.ist.agileRecommender;
 
+import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -8,8 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import at.tugraz.ist.agileRecommender.lucene.app.App;
+import at.tugraz.ist.agileRecommender.lucene.app.AppList;
+import at.tugraz.ist.agileRecommender.lucene.app.ParseApp;
 
 /**
  * Handles requests for the application home page.
@@ -34,6 +42,25 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "home";
+	}
+	
+
+	
+	@RequestMapping(value = "/getAppRecomm", method = RequestMethod.POST , consumes = {"application/json"})
+	public @ResponseBody App getAppRecomm(@RequestBody App app) {
+		
+		ParseApp.getAppList(app.getTitle());
+		
+		try {
+			RecommendApps.getRecommendation(app.getTitle());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return AppList.appList.get(0);
 	}
 	
 }
