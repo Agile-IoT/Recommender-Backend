@@ -7,8 +7,8 @@ public class WorkFlowList {
 	
 	public static List<WorkFlow> workflowList = new ArrayList<WorkFlow>();
 	
-	public static void addNewWorkFlow(String type){
-		workflowList.add(new WorkFlow(type));
+	public static void addNewWorkFlow(WorkFlow wf){
+		workflowList.add(wf);
 	}
 
 }

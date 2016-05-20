@@ -20,6 +20,8 @@ import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 
+import at.tugraz.ist.agileRecommender.lucene.app.App;
+import at.tugraz.ist.agileRecommender.lucene.app.RecommendedAppList;
 import at.tugraz.ist.agileRecommender.lucene.workflow.*;
 
 public class RecommendWorkFlow {
@@ -64,6 +66,7 @@ public class RecommendWorkFlow {
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
 			System.out.println((i + 1) + ". TYPE:" + d.get("type") + "\tDATATAG:" + d.get("datatag") + "\tDATAOWNER:" + d.get("dataowner") +"\tHREF:" + d.get("href"));
+			RecommendedWorkFlowList.addNewWorkFlow(new WorkFlow(d.get("type"), d.get("datatag"), d.get("dataowner"), d.get("href")));
 		}
 
 		// reader can only be closed when there

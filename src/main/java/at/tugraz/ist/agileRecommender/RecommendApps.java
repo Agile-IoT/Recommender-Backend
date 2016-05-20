@@ -65,6 +65,7 @@ public class RecommendApps {
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
 			System.out.println((i + 1) + ". TITLE:" + d.get("title") + " HREF:" + d.get("href"));
+			RecommendedAppList.addNewApp(new App(d.get("title"),d.get("href")));
 		}
 
 		// reader can only be closed when there
@@ -79,10 +80,10 @@ public class RecommendApps {
 			
 			Document doc = new Document();
 
-			doc.add(new TextField("title", app.title, Field.Store.YES));
+			doc.add(new TextField("title", app.getTitle(), Field.Store.YES));
 	
 			// use a string field for datatag because we don't want it tokenized
-			doc.add(new StringField("href", app.href, Field.Store.YES));
+			doc.add(new StringField("href", app.getHref(), Field.Store.YES));
 			
 			w.addDocument(doc);
 		}		

@@ -75,7 +75,7 @@ public class ParseApp {
 	      //System.out.println(name.toString()+" = "+value.toString());
 	      
 		  if(name.toString().contains("alt") )
-			  appToBeAdded = new App(value.toString());
+			  appToBeAdded = new App(value.toString(),null);
 		  
 		  if( appToBeAdded!=null && name.toString().contains("href"))
 			  appToBeAdded = appToBeAdded;

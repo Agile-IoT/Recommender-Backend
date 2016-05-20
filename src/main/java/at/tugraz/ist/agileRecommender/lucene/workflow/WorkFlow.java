@@ -7,8 +7,14 @@ public class WorkFlow {
 	public String dataowner;
 	public String href;
 	
-	public WorkFlow(String type){
+	public WorkFlow(){
+		
+	}
+	public WorkFlow(String type,String datatag,String dataowner,String href){
 		this.type = type;
+		this.datatag = datatag;
+		this.dataowner = dataowner; 
+		this.href = href;
 	}
 	
 	public String getType() {

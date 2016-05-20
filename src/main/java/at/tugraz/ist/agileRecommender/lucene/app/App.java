@@ -1,17 +1,21 @@
 package at.tugraz.ist.agileRecommender.lucene.app;
 
-import org.springframework.web.bind.annotation.RequestParam;
 
 public class App  {
 	
 	
-	public String title;
+	private String title;
 	//public String content;
-	public String href;
+	private String href;
 	
 	
-	public App(String title){
+	public App(){
+		
+	}
+	
+	public App(String title, String href){
 		this.title = title;
+		this.href = href;
 	}
 	
 	public String getHref() {

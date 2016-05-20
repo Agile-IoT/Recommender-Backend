@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -13,11 +14,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import at.tugraz.ist.agileRecommender.lucene.app.App;
-import at.tugraz.ist.agileRecommender.lucene.app.AppList;
-import at.tugraz.ist.agileRecommender.lucene.app.ParseApp;
+import at.tugraz.ist.agileRecommender.lucene.app.*;
+import at.tugraz.ist.agileRecommender.lucene.workflow.ParseWF;
+import at.tugraz.ist.agileRecommender.lucene.workflow.RecommendedWorkFlowList;
+import at.tugraz.ist.agileRecommender.lucene.workflow.WorkFlow;
+
 
 /**
  * Handles requests for the application home page.
@@ -45,9 +49,9 @@ public class HomeController {
 	}
 	
 
-	
-	@RequestMapping(value = "/getAppRecomm", method = RequestMethod.POST , consumes = {"application/json"})
-	public @ResponseBody App getAppRecomm(@RequestBody App app) {
+	@ResponseBody
+	@RequestMapping(value = "/getAppRecomm", method = RequestMethod.POST)
+	public List<App> getAppRecomm(@RequestBody App app) {
 		
 		ParseApp.getAppList(app.getTitle());
 		
@@ -60,7 +64,25 @@ public class HomeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return AppList.appList.get(0);
+		return RecommendedAppList.appList;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getWFRecomm", method = RequestMethod.POST)
+	public List<WorkFlow> getWFRecomm(@RequestBody WorkFlow wf) {
+		
+		ParseWF.getWorkFlows();
+		
+		try {
+			RecommendWorkFlow.getRecommendation(wf.getDatatag());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return RecommendedWorkFlowList.workflowList;
 	}
 	
 }
