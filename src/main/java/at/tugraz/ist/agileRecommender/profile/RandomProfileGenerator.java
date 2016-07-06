@@ -8,9 +8,9 @@ public class RandomProfileGenerator {
 	
 	String[] devices = {"temperature sensor","gas sensor","pressure sensor","zigbee","ble"};
 
-	String[] apps = {"temprature alarm","fire alarm","smart home manager"};
+	String[] apps = {"temperature alarm","fire alarm","smart home manager"};
 
-	String[] wfs = {"temprature sensor node","gas sensor node","temperature alarm workflow","fire alarm workflow"};
+	String[] wfs = {"temperature sensor node","gas sensor node","temperature alarm workflow","fire alarm workflow"};
 
 	
 	String memory = "Memory = %";

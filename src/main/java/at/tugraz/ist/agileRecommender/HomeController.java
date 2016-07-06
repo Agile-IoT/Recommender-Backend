@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import at.tugraz.ist.agileRecommender.lucene.app.*;
 import at.tugraz.ist.agileRecommender.lucene.workflow.ParseWF;
@@ -39,19 +44,17 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
 		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
+		RandomProfileGenerator randomProfile = new RandomProfileGenerator();
+		Profile gwProfile = randomProfile.generateProfile();
+	   
+		model.addAttribute("apps",gwProfile.apps);
+		model.addAttribute("wfs",gwProfile.wfs);
+		model.addAttribute("resources",gwProfile.resources);
+		model.addAttribute("devices",gwProfile.devices);
 		return "home";
 	}
 	
-
 	@ResponseBody
 	@RequestMapping(value = "/getAppRecomm", method = RequestMethod.POST)
 	public Set<App> getAppRecomm(@RequestBody App app) {
@@ -99,4 +102,24 @@ public class HomeController {
 		
 		return gwProfile;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getRecommendation", method = RequestMethod.POST)
+	public ModelAndView getRecommendation(HttpServletRequest request) {
+		
+		String apps = request.getParameter("apps");
+		String wfs = request.getParameter("wfs");
+		String devices = request.getParameter("devices");
+		String algorithm = request.getParameter("alg");
+		String output = request.getParameter("out");
+		int i = 0;
+		
+	
+		ModelAndView mav = new ModelAndView(new RedirectView ("home.jsp"));
+		mav.addObject("results","HEBELE");
+		
+		return mav;
+	}
+	
+	
 }

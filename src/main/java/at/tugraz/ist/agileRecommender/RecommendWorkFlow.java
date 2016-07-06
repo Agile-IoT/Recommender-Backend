@@ -66,7 +66,8 @@ public class RecommendWorkFlow {
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
 			System.out.println((i + 1) + ". TYPE:" + d.get("type") + "\tDATATAG:" + d.get("datatag") + "\tDATAOWNER:" + d.get("dataowner") +"\tHREF:" + d.get("href"));
-			RecommendedWorkFlowList.addNewWorkFlow(new WorkFlow(d.get("type"), d.get("datatag"), d.get("dataowner"), d.get("href")));
+			if(!RecommendedWorkFlowList.workflowList.contains(new WorkFlow(d.get("type"), d.get("datatag"), d.get("dataowner"), d.get("href"))))
+				RecommendedWorkFlowList.addNewWorkFlow(new WorkFlow(d.get("type"), d.get("datatag"), d.get("dataowner"), d.get("href")));
 		}
 
 		// reader can only be closed when there

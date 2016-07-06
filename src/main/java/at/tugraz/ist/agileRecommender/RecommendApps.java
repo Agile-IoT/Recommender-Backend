@@ -65,7 +65,8 @@ public class RecommendApps {
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
 			System.out.println((i + 1) + ". TITLE:" + d.get("title") + " HREF:" + d.get("href"));
-			RecommendedAppList.addNewApp(new App(d.get("title"),d.get("href")));
+			if(!RecommendedAppList.appList.contains(new App(d.get("title"),d.get("href"))))
+				RecommendedAppList.addNewApp(new App(d.get("title"),d.get("href")));
 		}
 
 		// reader can only be closed when there
