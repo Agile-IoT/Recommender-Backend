@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,8 @@ import at.tugraz.ist.agileRecommender.lucene.app.*;
 import at.tugraz.ist.agileRecommender.lucene.workflow.ParseWF;
 import at.tugraz.ist.agileRecommender.lucene.workflow.RecommendedWorkFlowList;
 import at.tugraz.ist.agileRecommender.lucene.workflow.WorkFlow;
+import at.tugraz.ist.agileRecommender.profile.Profile;
+import at.tugraz.ist.agileRecommender.profile.RandomProfileGenerator;
 
 
 /**
@@ -51,9 +54,10 @@ public class HomeController {
 
 	@ResponseBody
 	@RequestMapping(value = "/getAppRecomm", method = RequestMethod.POST)
-	public List<App> getAppRecomm(@RequestBody App app) {
+	public Set<App> getAppRecomm(@RequestBody App app) {
 		
 		ParseApp.getAppList(app.getTitle());
+		RecommendedAppList.appList.clear();
 		
 		try {
 			RecommendApps.getRecommendation(app.getTitle());
@@ -69,9 +73,10 @@ public class HomeController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/getWFRecomm", method = RequestMethod.POST)
-	public List<WorkFlow> getWFRecomm(@RequestBody WorkFlow wf) {
+	public Set<WorkFlow> getWFRecomm(@RequestBody WorkFlow wf) {
 		
 		ParseWF.getWorkFlows();
+		RecommendedWorkFlowList.workflowList.clear();
 		
 		try {
 			RecommendWorkFlow.getRecommendation(wf.getDatatag());
@@ -85,4 +90,13 @@ public class HomeController {
 		return RecommendedWorkFlowList.workflowList;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/getProfile", method = RequestMethod.POST)
+	public Profile getProfile(@RequestBody Profile p) {
+		
+		RandomProfileGenerator randomProfile = new RandomProfileGenerator();
+		Profile gwProfile = randomProfile.generateProfile();
+		
+		return gwProfile;
+	}
 }
