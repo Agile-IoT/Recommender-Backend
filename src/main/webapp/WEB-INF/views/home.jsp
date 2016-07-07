@@ -71,6 +71,17 @@ html {
 }
 
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+$(document).ready(
+	    function() {
+	    	var x = '${output}';
+	    	$("input[value="+x+"]").click();
+	    	var y = '${algorithm}';
+	    	$("input[value="+y+"]").click();
+	    	
+	    });
+</script>
 
 </head>
 <body>
@@ -91,26 +102,23 @@ html {
   	Apps:<br><input type="text" name="apps" value="${apps}" size="50"><br>
 	Workflows:<br><input type="text" name="wfs" value="${wfs}" size="50"><br>
 	Devices:<br><input type="text" name="devices" value="${devices}" size="50"><br>
-	Resources:<br><input type="text" name="devices" value="${resources}" size="50"><br>
-	Algorithm:<br><input type="radio" name="alg" value="CB" checked="checked"> Content Based<br>
-  				  <input type="radio" name="alg" value="UBCF"> User Based CF<br>
+	Resources:<br><input type="text" name="resources" value="${resources}" size="50"><br>
+	Algorithm:<br><input type="radio" name="alg" value="CB"> Content Based<br>
+  				  <input type="radio" name="alg" value="UBCF" > User Based CF<br>
  				  <input type="radio" name="alg" value="IBCF"> Item Based CF<br>
- 	Output:<br><input type="radio" name="out" value="App" checked="checked"> App<br>
-  				  <input type="radio" name="out" value="Workflow"> Workflow<br>
- 				  <input type="radio" name="out" value="Device"> Device<br>
+ 	Output:<br><input type="radio" name="out" id="out" value="App"> App<br>
+  				  <input type="radio" name="out" id="out" value="Workflow" > Workflow<br>
+ 				  <input type="radio" name="out" id="out" value="Device" > Device<br>
    <input class="button" type="submit" value="Calculate Recommendation">
 </form>
 <li>
-
 </ul>
 </div>
 
 <div class="col-5 menu">
 <h1>Recommendation Results</h1>
-<p id="results"></p>
+<p>${results}</p>
 </div>
-
-
 </div>
  
 </body>

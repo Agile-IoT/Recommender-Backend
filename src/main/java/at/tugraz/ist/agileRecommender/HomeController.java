@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -52,6 +53,8 @@ public class HomeController {
 		model.addAttribute("wfs",gwProfile.wfs);
 		model.addAttribute("resources",gwProfile.resources);
 		model.addAttribute("devices",gwProfile.devices);
+		model.addAttribute("algorithm","CB");
+		model.addAttribute("output","App");
 		return "home";
 	}
 	
@@ -105,21 +108,72 @@ public class HomeController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/getRecommendation", method = RequestMethod.POST)
-	public ModelAndView getRecommendation(HttpServletRequest request) {
+	public ModelAndView getRecommendation(HttpServletRequest request, Model model) {
 		
 		String apps = request.getParameter("apps");
 		String wfs = request.getParameter("wfs");
 		String devices = request.getParameter("devices");
+		String resources = request.getParameter("resources");
 		String algorithm = request.getParameter("alg");
 		String output = request.getParameter("out");
-		int i = 0;
-		
 	
-		ModelAndView mav = new ModelAndView(new RedirectView ("home.jsp"));
-		mav.addObject("results","HEBELE");
+		App app = new App();
+		app.setTitle((devices.split(" "))[0]);
+		WorkFlow wf = new WorkFlow();
+		wf.setDatatag((devices.split(" "))[0]);
+	
+		String results ="<b>Recommended "+output+"s using "+algorithm+" Algorithm</b><br><br>";
+		
+		if(output.equals("App")){
+			if(algorithm.equals("CB")){
+				results = Recommenders.getCBAppRecomm(app, results);
+			}
+			if(algorithm.equals("UBCF")){
+				results += "Not implemented yet<br>";
+			}
+			if(algorithm.equals("IBCF")){
+				results += "Not implemented yet<br>";
+			}
+		}	
+		else if(output.equals("Workflow")){
+			if(algorithm.equals("CB")){
+				results = Recommenders.getCBWfRecomm(wf, results);
+			}
+			if(algorithm.equals("UBCF")){
+				results += "Not implemented yet<br>";
+			}
+			if(algorithm.equals("IBCF")){
+				results += "Not implemented yet<br>";
+			}
+			
+		}
+		else if(output.equals("Device")){
+			if(algorithm.equals("CB")){
+				results += "Not implemented yet<br>";
+			}
+			if(algorithm.equals("UBCF")){
+				results += "Not implemented yet<br>";
+			}
+			if(algorithm.equals("IBCF")){
+				results += "Not implemented yet<br>";
+			}
+	
+		}
+		
+		
+		
+		ModelAndView mav = new ModelAndView("home");
+		mav.addObject("results",results);
+		
+		mav.addObject("apps",apps);
+		mav.addObject("wfs",wfs);
+		mav.addObject("resources",resources);
+		mav.addObject("devices",devices);
+	
+		mav.addObject("algorithm",algorithm);
+		mav.addObject("output",output);
 		
 		return mav;
 	}
-	
-	
+		
 }
