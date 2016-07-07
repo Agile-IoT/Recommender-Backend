@@ -59,41 +59,28 @@ public class HomeController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/getAppRecomm", method = RequestMethod.POST)
-	public Set<App> getAppRecomm(@RequestBody App app) {
+	@RequestMapping(value = "/getCBAppRecomm", method = RequestMethod.POST)
+	public Set<App> getCBAppRecomm(@RequestBody App app) {
 		
-		ParseApp.getAppList(app.getTitle());
-		RecommendedAppList.appList.clear();
-		
-		try {
-			RecommendApps.getRecommendation(app.getTitle());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return RecommendedAppList.appList;
+		return Recommenders.getCBAppRecomm(app);
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/getWFRecomm", method = RequestMethod.POST)
-	public Set<WorkFlow> getWFRecomm(@RequestBody WorkFlow wf) {
-		
-		ParseWF.getWorkFlows();
-		RecommendedWorkFlowList.workflowList.clear();
-		
-		try {
-			RecommendWorkFlow.getRecommendation(wf.getDatatag());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return RecommendedWorkFlowList.workflowList;
+	@RequestMapping(value = "/getCBWFRecomm", method = RequestMethod.POST)
+	public Set<WorkFlow> getCBWFRecomm(@RequestBody WorkFlow wf) {
+		return Recommenders.getCBWfRecomm(wf);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getUBCFAppRecomm", method = RequestMethod.GET)
+	public List<App> getUBCFAppRecomm() {
+		return Recommenders.getUBCFAppRecomm();
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getUBCFWfRecomm", method = RequestMethod.GET)
+	public List<WorkFlow> getUBCFWfRecomm() {
+		return Recommenders.getUBCFWfRecomm();
 	}
 	
 	@ResponseBody
@@ -129,7 +116,7 @@ public class HomeController {
 				results = Recommenders.getCBAppRecomm(app, results);
 			}
 			if(algorithm.equals("UBCF")){
-				results += "Not implemented yet<br>";
+				results = Recommenders.getUBCFAppRecomm(results);
 			}
 			if(algorithm.equals("IBCF")){
 				results += "Not implemented yet<br>";
@@ -140,7 +127,7 @@ public class HomeController {
 				results = Recommenders.getCBWfRecomm(wf, results);
 			}
 			if(algorithm.equals("UBCF")){
-				results += "Not implemented yet<br>";
+				results = Recommenders.getUBCFWfRecomm(results);
 			}
 			if(algorithm.equals("IBCF")){
 				results += "Not implemented yet<br>";

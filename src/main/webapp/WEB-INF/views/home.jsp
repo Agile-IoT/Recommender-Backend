@@ -97,7 +97,7 @@ $(document).ready(
 <ul>
 <h1>Gateway Profile</h1>
 <li>
-<p><b>Create Your Gateway Profile</b></p>
+<p><b>Your AGILE Gateway Profile</b></p>
 <form action="/agileRecommender/getRecommendation" method="post">
   	Apps:<br><input type="text" name="apps" value="${apps}" size="50"><br>
 	Workflows:<br><input type="text" name="wfs" value="${wfs}" size="50"><br>
@@ -106,7 +106,7 @@ $(document).ready(
 	Algorithm:<br><input type="radio" name="alg" value="CB"> Content Based<br>
   				  <input type="radio" name="alg" value="UBCF" > User Based CF<br>
  				  <input type="radio" name="alg" value="IBCF"> Item Based CF<br>
- 	Output:<br><input type="radio" name="out" id="out" value="App"> App<br>
+ 	What to recommend:<br><input type="radio" name="out" id="out" value="App"> App<br>
   				  <input type="radio" name="out" id="out" value="Workflow" > Workflow<br>
  				  <input type="radio" name="out" id="out" value="Device" > Device<br>
    <input class="button" type="submit" value="Calculate Recommendation">
