@@ -55,6 +55,7 @@ public class HomeController {
 		model.addAttribute("devices",gwProfile.devices);
 		model.addAttribute("algorithm","CB");
 		model.addAttribute("output","App");
+		model.addAttribute("kb","AppRatings");
 		return "home";
 	}
 	

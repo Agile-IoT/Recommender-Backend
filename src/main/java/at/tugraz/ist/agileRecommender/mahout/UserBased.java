@@ -29,7 +29,7 @@ public class UserBased {
 		List<App> recommendedApps = new ArrayList<App>();
 		try {
 			// load the data from the file with format "userID,itemID,value"
-			File file = new File("resources/AppRatings.csv");
+			File file = new File("resources/AppRatings");
 			String absolutePath = file.getAbsolutePath();
 			DataModel model = new FileDataModel(new File(absolutePath));
 			
@@ -61,7 +61,7 @@ public class UserBased {
 		List<WorkFlow> recommendedWfs = new ArrayList<WorkFlow>();
 		try {
 			// load the data from the file with format "userID,itemID,value"
-			File file = new File("resources/WfRatings.csv");
+			File file = new File("resources/WfRatings");
 			String absolutePath = file.getAbsolutePath();
 			DataModel model = new FileDataModel(new File(absolutePath));
 			

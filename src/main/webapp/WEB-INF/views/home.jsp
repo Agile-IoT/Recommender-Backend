@@ -59,16 +59,23 @@ html {
 
 .button {
     background-color: white;
-    border: none;
+    border: gray;
     color: #33b5e5;
-    padding: 15px 90px;
+    padding: 5px 15px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+    font-size: 20px;
+    width: 100%;
+    margin: 2px 2px;
     cursor: pointer;
 }
+.astext {
+    background:none;
+    border:none;
+    margin:0;
+    padding:0;
+}s
 
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -93,33 +100,127 @@ $(document).ready(
 <div class="row">
 
 
-<div class="col-4 menu">
+<div class="col-6 menu">
 <ul>
 <h1>Gateway Profile</h1>
 <li>
-<p><b>Your AGILE Gateway Profile</b></p>
+<p><b>Your AGILE Gateway Profile</b> <button class="astext" onClick="refreshPage()">(<u>change profile</u>)</button><br></p>
 <form action="/agileRecommender/getRecommendation" method="post">
-  	Apps:<br><input type="text" name="apps" value="${apps}" size="50"><br>
-	Workflows:<br><input type="text" name="wfs" value="${wfs}" size="50"><br>
-	Devices:<br><input type="text" name="devices" value="${devices}" size="50"><br>
-	Resources:<br><input type="text" name="resources" value="${resources}" size="50"><br>
+  	Apps:<br><input type="text" name="apps" value="${apps}" size= "80" ><br>
+	Workflows:<br><input type="text" name="wfs" value="${wfs}" size="80"><br>
+	Devices:<br><input type="text" name="devices" value="${devices}" size="80"><br>
+	Resources:<br><input type="text" name="resources" value="${resources}" size="80"><br>
 	Algorithm:<br><input type="radio" name="alg" value="CB"> Content Based<br>
   				  <input type="radio" name="alg" value="UBCF" > User Based CF<br>
  				  <input type="radio" name="alg" value="IBCF"> Item Based CF<br>
  	What to recommend:<br><input type="radio" name="out" id="out" value="App"> App<br>
   				  <input type="radio" name="out" id="out" value="Workflow" > Workflow<br>
  				  <input type="radio" name="out" id="out" value="Device" > Device<br>
-   <input class="button" type="submit" value="Calculate Recommendation">
+ 	
+   <input class="button" type="submit" value="Calculate Recommendation"> 
 </form>
+	App Ratings (CF Knowledge Base):<br><iframe src="../../../../resources/AppRatings" name="iframe_a" width="100%"></iframe><br>
+	Workflow Ratings (CF Knowledge Base):<br><iframe src="../../../../resources/WfRatings" name="iframe_a" width="100%"></iframe><br>
+	App List (CF Knowledge Base):<br><iframe src="../../../../resources/WfList" name="iframe_a" width="100%"></iframe><br>
+	Workflow List (CF Knowledge Base):<br><iframe src="../../../../resources/AppList" name="iframe_a" width="100%"></iframe><br>			  
 <li>
 </ul>
 </div>
 
-<div class="col-5 menu">
+<div class="col-6 menu">
 <h1>Recommendation Results</h1>
 <p>${results}</p>
 </div>
 </div>
+
+<script type="text/javascript">
+function refreshPage(){
+    window.location.reload();
+} 
+function saveTextAsFile()
+{
+    var textToSave = document.getElementById("kbtext").value;
+    var textToSaveAsBlob = new Blob([textToSave], {type:"text/plain"});
+    var fileNameToSaveAs =  "../../../../resources/"+document.getElementById('kb').value;
+    
+    var downloadLink = document.createElement("a");
+    downloadLink.download = fileNameToSaveAs;
+    downloadLink.innerHTML = "Download File";
+    downloadLink.href = textToSaveAsURL;
+    downloadLink.onclick = destroyClickedElement;
+    downloadLink.style.display = "none";
+    document.body.appendChild(downloadLink);
+ 
+    downloadLink.click();
+}
+ 
+function destroyClickedElement(event)
+{
+    document.body.removeChild(event.target);
+}
+ 
+function loadFileAsText()
+{
+    var fileToLoad = "/resources/AppRatings";
+    
+    var selectedItem = document.getElementById('kb').value;
+    
+    if(selectedItem =='AppRatings'){
+     	fileToLoad = "/resources/AppRatings";
+    }
+    else if(selectedItem =='WfRatings'){
+    	fileToLoad = "/resources/WfRatings";
+    }
+    else if(selectedItem =='AppList'){
+    	fileToLoad = "/resources/AppList";
+    }
+    else if(selectedItem =='WfList'){
+    	fileToLoad = "/resources/WfList";
+    }
+    
+   
+    var fileReader = new FileReader();
+    fileReader.onload = function(fileLoadedEvent) 
+    {
+        var textFromFileLoaded = fileLoadedEvent.target.result;
+        document.getElementById("kbtext").value = textFromFileLoaded;
+    };
+    
+    var ctx = "${pageContext.request.contextPath}";
+    var path = "file://"+ctx+fileToLoad;
+    
+    fileReader.readAsText(path, "UTF-8");
+}
+
+function updateFile() {
+	
+	var fileToLoad = "/resources/AppRatings";
+	var output = document.getElementById("kbtext").value;
+	    
+	var selectedItem = document.getElementById('kb').value;
+	    
+	    if(selectedItem =='AppRatings'){
+	     	fileToLoad = "/resources/AppRatings";
+	    }
+	    else if(selectedItem =='WfRatings'){
+	    	fileToLoad = "/resources/WfRatings";
+	    }
+	    else if(selectedItem =='AppList'){
+	    	fileToLoad = "/resources/AppList";
+	    }
+	    else if(selectedItem =='WfList'){
+	    	fileToLoad = "/resources/WfList";
+	    }
+	var ctx = "${pageContext.request.contextPath}";
+	var txtFile = new File(ctx+fileToLoad);
+	txtFile.open("w"); //
+	txtFile.writeln(output);
+	txtFile.close();
+}
+
+</script>
+
+
  
 </body>
 </html>
