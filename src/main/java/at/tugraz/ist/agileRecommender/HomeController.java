@@ -60,26 +60,26 @@ public class HomeController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/getCBAppRecomm", method = RequestMethod.POST)
+	@RequestMapping(value = "/app/getCBAppRecomm", method = RequestMethod.POST)
 	public Set<App> getCBAppRecomm(@RequestBody App app) {
 		
 		return Recommenders.getCBAppRecomm(app);
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/getCBWFRecomm", method = RequestMethod.POST)
+	@RequestMapping(value = "/workflow/getCBWFRecomm", method = RequestMethod.POST)
 	public Set<WorkFlow> getCBWFRecomm(@RequestBody WorkFlow wf) {
 		return Recommenders.getCBWfRecomm(wf);
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/getUBCFAppRecomm", method = RequestMethod.GET)
+	@RequestMapping(value = "/app/UBCFAppRecomm", method = RequestMethod.GET)
 	public List<App> getUBCFAppRecomm() {
 		return Recommenders.getUBCFAppRecomm();
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/getUBCFWfRecomm", method = RequestMethod.GET)
+	@RequestMapping(value = "/workflow/getUBCFWfRecomm", method = RequestMethod.GET)
 	public List<WorkFlow> getUBCFWfRecomm() {
 		return Recommenders.getUBCFWfRecomm();
 	}
