@@ -46,7 +46,7 @@ public class UserBased {
 			List<RecommendedItem> recommendations = recommender.recommend(2, 3);
 			for (RecommendedItem recommendation : recommendations) {
 				App a = new App();
-				a.setHref(readFile("AppList", recommendation.getItemID()));
+				a.setHref(FileOperations.readFile("AppList", recommendation.getItemID()));
 				a.setTitle(a.getHref());
 				recommendedApps.add(a);
 			}		
@@ -78,7 +78,7 @@ public class UserBased {
 			List<RecommendedItem> recommendations = recommender.recommend(2, 3);
 			for (RecommendedItem recommendation : recommendations) {
 				WorkFlow a = new WorkFlow();
-				a.setHref(readFile("WfList", recommendation.getItemID()));
+				a.setHref(FileOperations.readFile("WfList", recommendation.getItemID()));
 				recommendedWfs.add(a);
 			}		
 		} catch (Exception e) {
@@ -88,39 +88,6 @@ public class UserBased {
 		return recommendedWfs;
 	}
 	
-	public static String readFile(String filename, long line) {
 
-		BufferedReader br = null;
-
-		String linestr = "";
-		try {
-
-			String sCurrentLine;
-			File file = new File("resources/"+filename);
-			String absolutePath = file.getAbsolutePath();
-			br = new BufferedReader(new FileReader(absolutePath));
-
-			int i =1;
-			while ((sCurrentLine = br.readLine()) != null) {
-				System.out.println(sCurrentLine);
-				if(i==line){
-					linestr = sCurrentLine;
-					break;
-				}
-				i++;
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (br != null)br.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-		
-		return linestr;
-	}
 }
 

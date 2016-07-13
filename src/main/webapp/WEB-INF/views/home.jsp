@@ -86,7 +86,8 @@ $(document).ready(
 	    	$("input[value="+x+"]").click();
 	    	var y = '${algorithm}';
 	    	$("input[value="+y+"]").click();
-	    	
+	    	var k = '${knowledgebase}';
+	    	$("input[value="+k+"]").click();
 	    });
 </script>
 
@@ -113,16 +114,67 @@ $(document).ready(
 	Algorithm:<br><input type="radio" name="alg" value="CB"> Content Based<br>
   				  <input type="radio" name="alg" value="UBCF" > User Based CF<br>
  				  <input type="radio" name="alg" value="IBCF"> Item Based CF<br>
+ 				  
+ 	<script type="text/javascript">
+     var k = '${algorithm}';
+	    $("input[value="+k+"]").click();
+   </script>
  	What to recommend:<br><input type="radio" name="out" id="out" value="App"> App<br>
   				  <input type="radio" name="out" id="out" value="Workflow" > Workflow<br>
  				  <input type="radio" name="out" id="out" value="Device" > Device<br>
- 	
-   <input class="button" type="submit" value="Calculate Recommendation"> 
+  
+   <script type="text/javascript">
+     var k = '${output}';
+	 $("input[value="+k+"]").click();
+	 
+   </script>
+   
+   <input type="hidden" name="kbUpdate" id="kbUpdate" value=""} /> 
+   <input type="hidden" name="fd" id="fd" value= ""/>
+   
+   <input class="button" type="submit"  onclick="getInputs()" value="Calculate Recommendation"> 
 </form>
+
+<li>
+</ul>
+
+<ul>
+<h1>Knowledge Base</h1>
+<li>
+<form id="readFileForm" action="/agileRecommender/readFile" method="post">
+Select Knowledgebase to Read or Edit:<br><input type="radio" name="kb" id="kb" value="AppRatings"> AppRatings<br>
+	  				  <input type="radio" name="kb" id="kb" value="WfRatings" > WfRatings<br>
+	 				  <input type="radio" name="kb" id="kb" value="AppList" > AppList<br>
+	 				  <input type="radio" name="kb" id="kb" value="WfList" > WfList<br>
+	 				  
+	 				  <script type="text/javascript">
+						   
+							var k = '${knowledgebase}';
+							 $("input[value="+k+"]").click();
+						  
+					  </script>
+	 				  
+	   <input class="button" type="submit" value="Read File"> <br>
+</form>
+
+
+<b>${knowledgebase}:</b>
+<textarea id="myTextarea" rows="4" cols="87">
+${fileData}
+</textarea><br>
+<form id="updateForm" action="/agileRecommender/updateFile" method="post">
+	<input type="hidden" name="kbUpdate" id="kbUpdate" value=""/> 
+	<input type="hidden" name="fd" id="fd" value=""/>
+	<input class="button" type="submit" onclick="getInputs()" value="Update Changed File"> 
+</form>
+
+<!--
 	App Ratings (CF Knowledge Base):<br><iframe src="../../../../resources/AppRatings" name="iframe_a" width="100%"></iframe><br>
 	Workflow Ratings (CF Knowledge Base):<br><iframe src="../../../../resources/WfRatings" name="iframe_a" width="100%"></iframe><br>
 	App List (CF Knowledge Base):<br><iframe src="../../../../resources/WfList" name="iframe_a" width="100%"></iframe><br>
-	Workflow List (CF Knowledge Base):<br><iframe src="../../../../resources/AppList" name="iframe_a" width="100%"></iframe><br>			  
+	Workflow List (CF Knowledge Base):<br><iframe src="../../../../resources/AppList" name="iframe_a" width="100%"></iframe><br>	
+	-->		  
+	
 <li>
 </ul>
 </div>
@@ -130,97 +182,47 @@ $(document).ready(
 <div class="col-6 menu">
 <h1>Recommendation Results</h1>
 <p>${results}</p>
+
 </div>
 </div>
 
 <script type="text/javascript">
 function refreshPage(){
-    window.location.reload();
+    window.location.href = "/agileRecommender/";
 } 
-function saveTextAsFile()
-{
-    var textToSave = document.getElementById("kbtext").value;
-    var textToSaveAsBlob = new Blob([textToSave], {type:"text/plain"});
-    var fileNameToSaveAs =  "../../../../resources/"+document.getElementById('kb').value;
-    
-    var downloadLink = document.createElement("a");
-    downloadLink.download = fileNameToSaveAs;
-    downloadLink.innerHTML = "Download File";
-    downloadLink.href = textToSaveAsURL;
-    downloadLink.onclick = destroyClickedElement;
-    downloadLink.style.display = "none";
-    document.body.appendChild(downloadLink);
- 
-    downloadLink.click();
-}
- 
-function destroyClickedElement(event)
-{
-    document.body.removeChild(event.target);
-}
- 
-function loadFileAsText()
-{
-    var fileToLoad = "/resources/AppRatings";
-    
-    var selectedItem = document.getElementById('kb').value;
-    
-    if(selectedItem =='AppRatings'){
-     	fileToLoad = "/resources/AppRatings";
-    }
-    else if(selectedItem =='WfRatings'){
-    	fileToLoad = "/resources/WfRatings";
-    }
-    else if(selectedItem =='AppList'){
-    	fileToLoad = "/resources/AppList";
-    }
-    else if(selectedItem =='WfList'){
-    	fileToLoad = "/resources/WfList";
-    }
-    
-   
-    var fileReader = new FileReader();
-    fileReader.onload = function(fileLoadedEvent) 
-    {
-        var textFromFileLoaded = fileLoadedEvent.target.result;
-        document.getElementById("kbtext").value = textFromFileLoaded;
-    };
-    
-    var ctx = "${pageContext.request.contextPath}";
-    var path = "file://"+ctx+fileToLoad;
-    
-    fileReader.readAsText(path, "UTF-8");
-}
 
-function updateFile() {
-	
-	var fileToLoad = "/resources/AppRatings";
-	var output = document.getElementById("kbtext").value;
-	    
-	var selectedItem = document.getElementById('kb').value;
-	    
-	    if(selectedItem =='AppRatings'){
-	     	fileToLoad = "/resources/AppRatings";
-	    }
-	    else if(selectedItem =='WfRatings'){
-	    	fileToLoad = "/resources/WfRatings";
-	    }
-	    else if(selectedItem =='AppList'){
-	    	fileToLoad = "/resources/AppList";
-	    }
-	    else if(selectedItem =='WfList'){
-	    	fileToLoad = "/resources/WfList";
-	    }
-	var ctx = "${pageContext.request.contextPath}";
-	var txtFile = new File(ctx+fileToLoad);
-	txtFile.open("w"); //
-	txtFile.writeln(output);
-	txtFile.close();
+function getInputs() {
+	document.getElementById("updateForm").elements.namedItem("kbUpdate").value= getKBValue();
+	document.getElementById("updateForm").elements.namedItem("fd").value = getTextArea();
 }
-
+function getTextArea() {
+	return document.getElementById("myTextarea").value;
+}
+function getKBValue() {
+	var val;
+    // get list of radio buttons with specified name
+    var radios = document.getElementById("readFileForm").elements["kb"];
+    // loop through list of radio buttons
+    for (var i=0, len=radios.length; i<len; i++) {
+        if ( radios[i].checked ) { // radio checked?
+            val = radios[i].value; // if so, hold its value in val
+            break; // and break out of for loop
+        }
+    }
+    return val; // return value of checked radio or undefined if none checked
+}
+</script>
+ 
+<script type="text/javascript">
+    window.onload = function () { 
+    	var x = '${output}';
+	    $("input[value="+x+"]").click();
+	    var y = '${algorithm}';
+	    $("input[value="+y+"]").click();
+	    var k = '${knowledgebase}';
+	    $("input[value="+k+"]").click();
+    }
 </script>
 
-
- 
 </body>
 </html>
