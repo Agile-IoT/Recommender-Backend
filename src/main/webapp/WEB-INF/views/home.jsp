@@ -107,6 +107,7 @@ $(document).ready(
 <li>
 <p><b>Your AGILE Gateway Profile</b> <button class="astext" onClick="refreshPage()">(<u>change profile</u>)</button><br></p>
 <form action="/agileRecommender/getRecommendation" method="post">
+  	UserID:<br><input type="text" name="userID" value="${userID}" size= "80" ><br>
   	Apps:<br><input type="text" name="apps" value="${apps}" size= "80" ><br>
 	Workflows:<br><input type="text" name="wfs" value="${wfs}" size="80"><br>
 	Devices:<br><input type="text" name="devices" value="${devices}" size="80"><br>

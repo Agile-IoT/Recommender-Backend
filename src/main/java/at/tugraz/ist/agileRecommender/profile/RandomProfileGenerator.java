@@ -79,6 +79,7 @@ public class RandomProfileGenerator {
 		
 	    gwProfile.resources = memory+ ","+ cpu + ","+ power ; 
 	   
+	    gwProfile.userID = randomGenerator.nextInt(3)+1;
 	    
 		return gwProfile;
 	}

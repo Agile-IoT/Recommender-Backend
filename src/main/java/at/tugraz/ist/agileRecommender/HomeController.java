@@ -57,6 +57,7 @@ public class HomeController {
 		Profile gwProfile = randomProfile.generateProfile();
 		String data = FileOperations.readFile("AppRatings", -1);
 		
+		model.addAttribute("userID",gwProfile.userID);
 		model.addAttribute("apps",gwProfile.apps);
 		model.addAttribute("wfs",gwProfile.wfs);
 		model.addAttribute("resources",gwProfile.resources);
@@ -69,11 +70,13 @@ public class HomeController {
 		return model;
 	}
 	
-	public ModelAndView setDefaultGateway( ModelAndView model) {
+	public ModelAndView setDefaultGateway(ModelAndView model) {
 		RandomProfileGenerator randomProfile = new RandomProfileGenerator();
 		Profile gwProfile = randomProfile.generateProfile();
 		String data = FileOperations.readFile("AppRatings", -1);
 		
+		model.addObject("userID",gwProfile.userID);
+		model.addObject("userID",gwProfile.userID);
 		model.addObject("apps",gwProfile.apps);
 		model.addObject("wfs",gwProfile.wfs);
 		model.addObject("resources",gwProfile.resources);
@@ -87,32 +90,32 @@ public class HomeController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/app/getCBAppRecomm", method = RequestMethod.POST)
-	public Set<App> getCBAppRecomm(@RequestBody App app) {
+	public Set<App> getCBAppRecomm(@RequestBody Profile profile) {
 		
-		return Recommenders.getCBAppRecomm(app);
+		return Recommenders.getCBAppRecomm(profile);
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/workflow/getCBWFRecomm", method = RequestMethod.POST)
-	public Set<WorkFlow> getCBWFRecomm(@RequestBody WorkFlow wf) {
-		return Recommenders.getCBWfRecomm(wf);
+	public Set<WorkFlow> getCBWFRecomm(@RequestBody Profile profile) {
+		return Recommenders.getCBWfRecomm(profile);
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/app/UBCFAppRecomm", method = RequestMethod.GET)
-	public List<App> getUBCFAppRecomm() {
-		return Recommenders.getUBCFAppRecomm();
+	@RequestMapping(value = "/app/UBCFAppRecomm", method = RequestMethod.POST)
+	public List<App> getUBCFAppRecomm(@RequestBody Profile profile) {
+		return Recommenders.getUBCFAppRecomm(profile.userID);
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/workflow/getUBCFWfRecomm", method = RequestMethod.GET)
-	public List<WorkFlow> getUBCFWfRecomm() {
-		return Recommenders.getUBCFWfRecomm();
+	@RequestMapping(value = "/workflow/getUBCFWfRecomm", method = RequestMethod.POST)
+	public List<WorkFlow> getUBCFWfRecomm(@RequestBody Profile profile) {
+		return Recommenders.getUBCFWfRecomm(profile.userID);
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/getProfile", method = RequestMethod.POST)
-	public Profile getProfile(@RequestBody Profile p) {
+	@RequestMapping(value = "/getProfile", method = RequestMethod.GET)
+	public Profile getProfile() {
 		
 		RandomProfileGenerator randomProfile = new RandomProfileGenerator();
 		Profile gwProfile = randomProfile.generateProfile();
@@ -156,6 +159,7 @@ public class HomeController {
 	@RequestMapping(value = "/getRecommendation", method = RequestMethod.POST)
 	public ModelAndView getRecommendation(HttpServletRequest request, Model model) {
 		
+		String userID = request.getParameter("userID");
 		String apps = request.getParameter("apps");
 		String wfs = request.getParameter("wfs");
 		String devices = request.getParameter("devices");
@@ -164,45 +168,22 @@ public class HomeController {
 		String output = request.getParameter("out");
 		String knowledgebase = request.getParameter("kbUpdate");
 		String fileData = request.getParameter("fd");
-	
-		String query ="iot";
 		
-		String query1 ="iot";
-		String query2 ="iot";
-		String query3 ="iot";
-		
-		if(apps.length()>0){
-			query1 = apps.replace(" ", " OR ");
-			query1 = query1.replace(",", " OR ");
-		}
-		
-		if(wfs.length()>0){
-			query2 = wfs.replace(" ", " OR ");
-			query2 = query2.replace(",", " OR ");
-		}
-		
-		if(devices.length()>0){
-		query3 = devices.replace(" ", " OR ");
-		query3 = query3.replace(",", " OR ");
-		}
-		
-		query = (query+" OR "+ query1+" OR "+ query2+" OR "+ query3);
-		
-		
-		App app = new App();
-		app.setTitle(query);
-		
-		WorkFlow wf = new WorkFlow();
-		wf.setDatatag(query);
+		Profile profile = new Profile();
+		profile.userID= Long.valueOf(userID);
+		profile.apps= apps;
+		profile.wfs= wfs;
+		profile.devices= devices;
+		profile.resources= resources;
 	
 		String results ="<b>Recommended "+output+"s using "+algorithm+" Algorithm</b><br><br>";
 		
 		if(output.equals("App")){
 			if(algorithm.equals("CB")){
-				results = Recommenders.getCBAppRecomm(app, results);
+				results = Recommenders.getCBAppRecomm(profile, results);
 			}
 			if(algorithm.equals("UBCF")){
-				results = Recommenders.getUBCFAppRecomm(results);
+				results = Recommenders.getUBCFAppRecomm(profile.userID, results);
 			}
 			if(algorithm.equals("IBCF")){
 				results += "Not implemented yet<br>";
@@ -210,10 +191,10 @@ public class HomeController {
 		}	
 		else if(output.equals("Workflow")){
 			if(algorithm.equals("CB")){
-				results = Recommenders.getCBWfRecomm(wf, results);
+				results = Recommenders.getCBWfRecomm(profile, results);
 			}
 			if(algorithm.equals("UBCF")){
-				results = Recommenders.getUBCFWfRecomm(results);
+				results = Recommenders.getUBCFWfRecomm(profile.userID, results);
 			}
 			if(algorithm.equals("IBCF")){
 				results += "Not implemented yet<br>";
@@ -236,6 +217,7 @@ public class HomeController {
 		ModelAndView mav = new ModelAndView("home");
 		mav.addObject("results",results);
 		
+		mav.addObject("userID",userID);
 		mav.addObject("apps",apps);
 		mav.addObject("wfs",wfs);
 		mav.addObject("resources",resources);

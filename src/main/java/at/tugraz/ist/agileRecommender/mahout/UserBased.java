@@ -22,10 +22,11 @@ import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import at.tugraz.ist.agileRecommender.Recommenders;
 import at.tugraz.ist.agileRecommender.lucene.app.App;
 import at.tugraz.ist.agileRecommender.lucene.workflow.WorkFlow;
+import at.tugraz.ist.agileRecommender.profile.Profile;
 
 public class UserBased {
 
-	public static List<App> getUBCFApps(){
+	public static List<App> getUBCFApps(long userID){
 		List<App> recommendedApps = new ArrayList<App>();
 		try {
 			// load the data from the file with format "userID,itemID,value"
@@ -43,7 +44,7 @@ public class UserBased {
 			UserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
 			
 			//  get 3 items recommended for the user with userID 1
-			List<RecommendedItem> recommendations = recommender.recommend(2, 3);
+			List<RecommendedItem> recommendations = recommender.recommend(userID, 3);
 			for (RecommendedItem recommendation : recommendations) {
 				App a = new App();
 				a.setHref(FileOperations.readFile("AppList", recommendation.getItemID()));
@@ -57,7 +58,7 @@ public class UserBased {
 		return recommendedApps;
 	}
 	
-	public static List<WorkFlow> getUBCFWfs(){
+	public static List<WorkFlow> getUBCFWfs(long userID){
 		List<WorkFlow> recommendedWfs = new ArrayList<WorkFlow>();
 		try {
 			// load the data from the file with format "userID,itemID,value"
@@ -75,7 +76,7 @@ public class UserBased {
 			UserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
 			
 			//  get 3 items recommended for the user with userID 1
-			List<RecommendedItem> recommendations = recommender.recommend(2, 3);
+			List<RecommendedItem> recommendations = recommender.recommend(userID, 3);
 			for (RecommendedItem recommendation : recommendations) {
 				WorkFlow a = new WorkFlow();
 				a.setHref(FileOperations.readFile("WfList", recommendation.getItemID()));

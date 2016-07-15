@@ -2,6 +2,8 @@ package at.tugraz.ist.agileRecommender.profile;
 
 public class Profile {
 	
+	public long userID;
+	
 	public String devices;
 	public String apps;
 	public String wfs;
@@ -10,7 +12,8 @@ public class Profile {
 	public Profile(){
 		
 	}
-	public Profile(String str1,String str2,String str3,String str4){
+	public Profile(long id, String str1,String str2,String str3,String str4){
+		this.userID = id;
 		this.devices = str1;
 		this.apps = str2;
 		this.wfs = str3; 
@@ -18,6 +21,12 @@ public class Profile {
 	}
 	
 	
+	public long getUserID() {
+		return userID;
+	}
+	public void setUserID(long userID) {
+		this.userID = userID;
+	}
 	public String getDevices() {
 		return devices;
 	}
