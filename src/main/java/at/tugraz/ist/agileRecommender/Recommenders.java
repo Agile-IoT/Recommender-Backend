@@ -34,7 +34,6 @@ public class Recommenders {
 	}
 	
 	public static String getCBAppRecomm(App app, String results){
-		
 		getCBAppRecomm(app);
 		return getRecommAppStr(results, new ArrayList<App>(RecommendedAppList.appList));
 	}

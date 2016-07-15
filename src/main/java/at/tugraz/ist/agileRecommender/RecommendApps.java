@@ -2,6 +2,7 @@ package at.tugraz.ist.agileRecommender;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Iterator;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -65,7 +66,18 @@ public class RecommendApps {
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
 			System.out.println((i + 1) + ". TITLE:" + d.get("title") + " HREF:" + d.get("href"));
-			if(!RecommendedAppList.appList.contains(new App(d.get("title"),d.get("href"))))
+			
+			boolean alreadyPlaced = false;
+			Iterator<App> iterator = RecommendedAppList.appList.iterator();
+		    while(iterator.hasNext()) {
+		        App setElement = iterator.next();
+		        if(setElement.getTitle().equals(d.get("title"))) {
+		        	alreadyPlaced = true;
+		        	break;
+		        }
+		    }
+		    
+			if(!alreadyPlaced)
 				RecommendedAppList.addNewApp(new App(d.get("title"),d.get("href")));
 		}
 

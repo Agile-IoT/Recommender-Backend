@@ -2,6 +2,7 @@ package at.tugraz.ist.agileRecommender;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Iterator;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -68,6 +69,20 @@ public class RecommendWorkFlow {
 			System.out.println((i + 1) + ". TYPE:" + d.get("type") + "\tDATATAG:" + d.get("datatag") + "\tDATAOWNER:" + d.get("dataowner") +"\tHREF:" + d.get("href"));
 			if(!RecommendedWorkFlowList.workflowList.contains(new WorkFlow(d.get("type"), d.get("datatag"), d.get("dataowner"), d.get("href"))))
 				RecommendedWorkFlowList.addNewWorkFlow(new WorkFlow(d.get("type"), d.get("datatag"), d.get("dataowner"), d.get("href")));
+			
+			boolean alreadyPlaced = false;
+			Iterator<WorkFlow> iterator = RecommendedWorkFlowList.workflowList.iterator();
+		    while(iterator.hasNext()) {
+		        WorkFlow setElement = iterator.next();
+		        if(setElement.getHref().equals(d.get("href"))) {
+		        	alreadyPlaced = true;
+		        	break;
+		        }
+		    }
+		    
+			if(!alreadyPlaced)
+				RecommendedWorkFlowList.addNewWorkFlow(new WorkFlow(d.get("type"), d.get("datatag"), d.get("dataowner"), d.get("href")));
+		
 		}
 
 		// reader can only be closed when there

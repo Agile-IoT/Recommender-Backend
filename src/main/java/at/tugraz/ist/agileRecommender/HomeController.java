@@ -165,10 +165,35 @@ public class HomeController {
 		String knowledgebase = request.getParameter("kbUpdate");
 		String fileData = request.getParameter("fd");
 	
+		String query ="iot";
+		
+		String query1 ="iot";
+		String query2 ="iot";
+		String query3 ="iot";
+		
+		if(apps.length()>0){
+			query1 = apps.replace(" ", " OR ");
+			query1 = query1.replace(",", " OR ");
+		}
+		
+		if(wfs.length()>0){
+			query2 = wfs.replace(" ", " OR ");
+			query2 = query2.replace(",", " OR ");
+		}
+		
+		if(devices.length()>0){
+		query3 = devices.replace(" ", " OR ");
+		query3 = query3.replace(",", " OR ");
+		}
+		
+		query = (query+" OR "+ query1+" OR "+ query2+" OR "+ query3);
+		
+		
 		App app = new App();
-		app.setTitle((devices.split(" "))[0]);
+		app.setTitle(query);
+		
 		WorkFlow wf = new WorkFlow();
-		wf.setDatatag((devices.split(" "))[0]);
+		wf.setDatatag(query);
 	
 		String results ="<b>Recommended "+output+"s using "+algorithm+" Algorithm</b><br><br>";
 		

@@ -30,9 +30,12 @@ public class ParseApp {
 	  }
 	  
 	  public static void getAppList(String query) {
+		    AppList.appList.clear();
 		    ParserGetter kit = new ParserGetter();
 		    HTMLEditorKit.Parser parser = kit.getParser();
 		    HTMLEditorKit.ParserCallback callback = new ReportAttributes();
+		    
+		    query=query.replaceAll(" ", "%20");
 
 		    try {
 		    	String url = "https://play.google.com/store/search?q=REPLACE&c=apps&hl=en";
