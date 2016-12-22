@@ -1,4 +1,4 @@
-# AGILE Recommender
+# AGILE Recommender Service
 
 ## Architecture
 
