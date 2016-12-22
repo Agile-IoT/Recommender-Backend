@@ -3,6 +3,7 @@ package at.tugraz.ist.agile.recommenderservice.marketplaces.parsers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -41,18 +42,17 @@ public class ParseWF {
 
 		    try {
 		      URL u = new URL("http://flows.nodered.org/");
-		      InputStream in = u.openStream();
+		      HttpURLConnection httpcon = (HttpURLConnection) u.openConnection();
+		      httpcon.addRequestProperty("User-Agent", "Mozilla/4.0");
+		      InputStream in = httpcon.getInputStream();
 		      InputStreamReader r = new InputStreamReader(in);
 		      parser.parse(r, callback, false);
 		    } catch (IOException e) {
 		      System.err.println(e);
 		    }
 	  }
-	  
-	  
+	 	  
 	}
-
-
 
 	class ReportAttributes extends HTMLEditorKit.ParserCallback {
 

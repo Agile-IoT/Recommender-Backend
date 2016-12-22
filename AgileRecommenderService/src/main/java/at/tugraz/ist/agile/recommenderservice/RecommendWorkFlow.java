@@ -23,12 +23,14 @@ import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 
+import at.tugraz.ist.agile.recommenderservice.marketplaces.WorkflowMarketplace;
 import at.tugraz.ist.agile.recommenderservice.models.Workflow;
 
 
 public class RecommendWorkFlow {
 	
 	public List<Workflow> recommendedWorkflows;
+	
 	RecommendWorkFlow(){
 		this.recommendedWorkflows = new ArrayList<Workflow>();
 	}
@@ -37,30 +39,18 @@ public class RecommendWorkFlow {
 		
 		System.out.println("LUCENE will calculate recommendation for workflows");
 		
-		// 0. Specify the analyzer for tokenizing text.
-		//    The same analyzer should be used for indexing and searching
-		StandardAnalyzer analyzer = new StandardAnalyzer();
-		
-		// 1. create the index
-		Directory index = new RAMDirectory();
-		IndexWriterConfig config = new IndexWriterConfig(analyzer);
-
-		IndexWriter w = new IndexWriter(index, config);
-		addWF(w);
-		w.close();
-
 		// the "title" arg specifies the default field to use
 		// when no field is explicitly specified in the query.
 		Query q = null;
 		try {
-			q = new QueryParser("datatag", analyzer).parse(querystr);
+			q = new QueryParser("datatag",WorkflowMarketplace.analyzer_wf).parse(querystr);
 		} catch (org.apache.lucene.queryparser.classic.ParseException e) {
 			e.printStackTrace();
 		}
 
 		// 3. search
 		int hitsPerPage = 10;
-		IndexReader reader = DirectoryReader.open(index);
+		IndexReader reader = DirectoryReader.open(WorkflowMarketplace.directoryIndex_wf);
 		IndexSearcher searcher = new IndexSearcher(reader);
 		TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage);
 		searcher.search(q, collector);

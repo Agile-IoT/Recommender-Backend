@@ -17,7 +17,6 @@ public class Recommenders {
 		
 		String query = getQuery(profile);
 		
-		ParseApp.getAppList(query);
 		RecommendApps recommendApp = new RecommendApps();
 	
 		try {
@@ -34,7 +33,6 @@ public class Recommenders {
 	
 	public static List<Workflow> getWorklowRecommendations(GatewayProfile profile){
 		
-		ParseWF.getWorkFlows();
 		RecommendWorkFlow recommendWf = new RecommendWorkFlow();
 		
 		try {
@@ -79,11 +77,10 @@ public class Recommenders {
 	
 	private static String getQuery(GatewayProfile profi){
 		
-		String query ="iot";
-		
-		String query1 ="iot";
-		String query2 ="iot";
-		String query3 ="iot";
+		String query  = "iot";
+		String query1 = "iot";
+		String query2 = "iot";
+		String query3 = "iot";
 		
 		if(profi.apps.length()>0){
 			query1 = profi.apps.replace(" ", " OR ");
