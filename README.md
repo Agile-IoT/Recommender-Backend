@@ -7,5 +7,6 @@ Provides 3 restful services:
 ###/getWorkflowRecommendation
 ###/getCloudRecommendation
 
-This project will be packed as Docker miniservice and will run on the AGILE gateway.
+Recommender Service is developed as a Spring Boot Application. 
+Later it will be wrapped as Docker microservice and will run on the AGILE gateway.
  
