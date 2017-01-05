@@ -39,12 +39,6 @@ public class WorkflowMarketplace {
 		}
 		doc_wf = new Document();
 	}
-
-	public String type;
-	public String datatag;
-	public String dataowner;
-	public String href;
-	
 	
 	public static void addNewWorkFlow(Workflow wf){
 		workflowList.add(wf);
@@ -59,7 +53,6 @@ public class WorkflowMarketplace {
 					// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 	}
 	

@@ -17,20 +17,20 @@ import at.tugraz.ist.agile.recommenderservice.models.App;
 
 public class ParseApp {
 
-	  public static void main(String[] args) {
-	    ParserGetter kit = new ParserGetter();
-	    HTMLEditorKit.Parser parser = kit.getParser();
-	    HTMLEditorKit.ParserCallback callback = new ReportAttributes_app();
-
-	    try {
-	      URL u = new URL("https://play.google.com/store/apps?hl=en");
-	      InputStream in = u.openStream();
-	      InputStreamReader r = new InputStreamReader(in);
-	      parser.parse(r, callback, false);
-	    } catch (IOException e) {
-	      System.err.println(e);
-	    }
-	  }
+//	  public static void main(String[] args) {
+//	    ParserGetter kit = new ParserGetter();
+//	    HTMLEditorKit.Parser parser = kit.getParser();
+//	    HTMLEditorKit.ParserCallback callback = new ReportAttributes_app();
+//
+//	    try {
+//	      URL u = new URL("https://play.google.com/store/apps?hl=en");
+//	      InputStream in = u.openStream();
+//	      InputStreamReader r = new InputStreamReader(in);
+//	      parser.parse(r, callback, false);
+//	    } catch (IOException e) {
+//	      System.err.println(e);
+//	    }
+//	  }
 	  
 	  public static void getAppList(String query) {
 		  	AppMarketplace.appList.clear();

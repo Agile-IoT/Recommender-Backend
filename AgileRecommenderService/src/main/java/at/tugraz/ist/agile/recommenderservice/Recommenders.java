@@ -48,7 +48,18 @@ public class Recommenders {
 	}
 	
 	public static List<Cloud> getCloudRecommendation(GatewayProfile profile){
-		return null;
+		RecommendCloud recommendCloud = new RecommendCloud();
+		
+		try {
+			recommendCloud.getRecommendation(getQuery(profile));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return recommendCloud.recommendedClouds;
 	}
 	
 	private static String getRecommAppStr(String results, List<App> appList){

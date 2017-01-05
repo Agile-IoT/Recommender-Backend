@@ -20,20 +20,20 @@ import at.tugraz.ist.agile.recommenderservice.models.Workflow;
 
 public class ParseWF {
 
-	  public static void main(String[] args) {
-	    ParserGetter kit = new ParserGetter();
-	    HTMLEditorKit.Parser parser = kit.getParser();
-	    HTMLEditorKit.ParserCallback callback = new ReportAttributes();
-
-	    try {
-	      URL u = new URL("http://flows.nodered.org/");
-	      InputStream in = u.openStream();
-	      InputStreamReader r = new InputStreamReader(in);
-	      parser.parse(r, callback, false);
-	    } catch (IOException e) {
-	      System.err.println(e);
-	    }
-	  }
+//	  public static void main(String[] args) {
+//	    ParserGetter kit = new ParserGetter();
+//	    HTMLEditorKit.Parser parser = kit.getParser();
+//	    HTMLEditorKit.ParserCallback callback = new ReportAttributes();
+//
+//	    try {
+//	      URL u = new URL("http://flows.nodered.org/");
+//	      InputStream in = u.openStream();
+//	      InputStreamReader r = new InputStreamReader(in);
+//	      parser.parse(r, callback, false);
+//	    } catch (IOException e) {
+//	      System.err.println(e);
+//	    }
+//	  }
 	  
 	  public static void getWorkFlows() {
 		    ParserGetter kit = new ParserGetter();

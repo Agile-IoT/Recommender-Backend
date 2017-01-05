@@ -11,6 +11,7 @@ public class Workflow {
 	public Workflow(){
 		
 	}
+	
 	public Workflow(String type,String datatag,String dataowner,String href){
 		this.type = type;
 		this.datatag = datatag;
