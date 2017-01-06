@@ -36,10 +36,11 @@ public class CloudMarketplace {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-	    doc_cloud = new Document();
+	    
 	}
 	
 	public static void addNewCloud(Cloud cloud){
+		doc_cloud = new Document();
 		cloudList.add(cloud);
 		
 		doc_cloud.add(new TextField("title", cloud.getTitle(), Field.Store.YES));
@@ -49,6 +50,7 @@ public class CloudMarketplace {
 		doc_cloud.add(new TextField("middlewares", cloud.getMiddlewares(), Field.Store.YES));
 		doc_cloud.add(new TextField("runtimes", cloud.getRuntimes(), Field.Store.YES));
 		doc_cloud.add(new TextField("services", cloud.getServices(), Field.Store.YES));
+		doc_cloud.add(new TextField("pricing", cloud.getServices(), Field.Store.YES));
 		doc_cloud.add(new StringField("link", cloud.getLink(), Field.Store.YES));
 				
 		try {

@@ -40,9 +40,10 @@ public class ParseCloud {
 				String[] frameworks = prop.getProperty("frameworks").split(";");
 				String[] runtimes = prop.getProperty("runtimes").split(";");
 				String[] services = prop.getProperty("services").split(";");
+				String[] pricing = prop.getProperty("pricing").split(";");
 				
 				for(int i=0; i<titles.length;i++){
-					Cloud cloudToBeAdded = new Cloud(titles[i],links[i],accesstype[i],locations[i],middlewares[i],frameworks[i],runtimes[i],services[i]);
+					Cloud cloudToBeAdded = new Cloud(titles[i],links[i],accesstype[i],locations[i],middlewares[i],frameworks[i],runtimes[i],services[i],pricing[i]);
 					System.out.println(cloudToBeAdded.getTitle());
 					CloudMarketplace.addNewCloud(cloudToBeAdded);
 				}

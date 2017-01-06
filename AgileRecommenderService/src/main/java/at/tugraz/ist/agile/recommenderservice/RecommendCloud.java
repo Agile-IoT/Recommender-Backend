@@ -39,7 +39,7 @@ public class RecommendCloud {
 	
 	public void getRecommendation(String querystr) throws IOException, ParseException {
 		
-		System.out.println("LUCENE will calculate recommendation for workflows");
+		System.out.println("LUCENE will calculate recommendation for clouds");
 		
 		// the "title" arg specifies the default field to use
 		// when no field is explicitly specified in the query.
@@ -77,7 +77,7 @@ public class RecommendCloud {
 		    }
 		    
 			if(!alreadyPlaced)
-				recommendedClouds.add(new Cloud(d.get("title"), d.get("link"), d.get("accesstype"), d.get("locations"), d.get("middlewares"), d.get("frameworks"), d.get("runtimes"), d.get("services")));
+				recommendedClouds.add(new Cloud(d.get("title"), d.get("link"), d.get("accesstype"), d.get("locations"), d.get("middlewares"), d.get("frameworks"), d.get("runtimes"), d.get("services"),d.get("pricing")));
 			
 		}
 

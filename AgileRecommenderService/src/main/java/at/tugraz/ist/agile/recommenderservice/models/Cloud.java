@@ -12,10 +12,11 @@ public class Cloud {
 	public String frameworks;
 	public String runtimes;
 	public String services;
+	public String pricing;
 	
 	
 	public Cloud(String title, String link, String accesstype, String locations, String middlewares, String frameworks,
-			String runtimes, String services) {
+			String runtimes, String services,String pricing) {
 		super();
 		this.title = title;
 		this.link = link;
@@ -25,6 +26,7 @@ public class Cloud {
 		this.frameworks = frameworks;
 		this.runtimes = runtimes;
 		this.services = services;
+		this.pricing = pricing;
 	}
 	
 	
@@ -75,6 +77,16 @@ public class Cloud {
 	}
 	public void setServices(String services) {
 		this.services = services;
+	}
+
+
+	public String getPricing() {
+		return pricing;
+	}
+
+
+	public void setPricing(String pricing) {
+		this.pricing = pricing;
 	}
 	
 	

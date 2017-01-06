@@ -37,10 +37,11 @@ public class WorkflowMarketplace {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		doc_wf = new Document();
+		
 	}
 	
 	public static void addNewWorkFlow(Workflow wf){
+		doc_wf = new Document();
 		workflowList.add(wf);
 		doc_wf.add(new StringField("type", wf.getType(), Field.Store.YES));
 		doc_wf.add(new TextField("datatag", wf.getDatatag(), Field.Store.YES));

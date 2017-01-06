@@ -36,10 +36,11 @@ public class AppMarketplace {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		doc_app = new Document();
+		
 	}
 	
 	public static void addNewApp(App app){
+		doc_app = new Document();
 		appList.add(app);
 		
 		doc_app.add(new TextField("title", app.getTitle(), Field.Store.YES));
