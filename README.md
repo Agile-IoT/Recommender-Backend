@@ -11,10 +11,6 @@ Provides 3 restful services:
 
 Example Input and Output:
 
-<p align="center">
-  <img src="postman_1.png" width="350"/>
-</p>
-
 ```
 {
  	"userID":1,	
