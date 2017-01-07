@@ -12,18 +12,22 @@ Provides 3 restful services:
 Example Input and Output:
 
 ```
+INPUT: (Post Request to http://IP:PORT/getCloudRecommendation)
+
 {
  	"userID":1,	
   	"devices":"",
   	"apps":"",
   	"wfs":"" ,
-    "resources":"",
-    "location": "EU",
-    "pricingPreferences": "free OR metered"
+    	"resources":"",
+    	"location": "EU",
+    	"pricingPreferences": "free OR metered"
 }
 ```
 
 ```
+OUTPUT:
+
 [
     {
         "title": "Heroku ",
