@@ -44,6 +44,7 @@ public class AppMarketplace {
 		appList.add(app);
 		
 		doc_app.add(new TextField("title", app.getTitle(), Field.Store.YES));
+		doc_app.add(new TextField("stars", Integer.toString(app.getStars()), Field.Store.YES));
 		doc_app.add(new StringField("href", app.getHref(), Field.Store.YES));
 				
 		try {

@@ -18,7 +18,7 @@ import at.tugraz.ist.agile.recommenderservice.marketplaces.WorkflowMarketplace;
 import at.tugraz.ist.agile.recommenderservice.models.Workflow;
 
 
-public class ParseWF {
+public class ParseNodeRed {
 
 //	  public static void main(String[] args) {
 //	    ParserGetter kit = new ParserGetter();

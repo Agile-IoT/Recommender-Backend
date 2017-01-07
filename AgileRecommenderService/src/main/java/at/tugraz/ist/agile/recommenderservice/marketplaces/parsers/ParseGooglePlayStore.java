@@ -15,7 +15,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import at.tugraz.ist.agile.recommenderservice.marketplaces.AppMarketplace;
 import at.tugraz.ist.agile.recommenderservice.models.App;
 
-public class ParseApp {
+public class ParseGooglePlayStore {
 
 //	  public static void main(String[] args) {
 //	    ParserGetter kit = new ParserGetter();
@@ -79,7 +79,7 @@ public class ParseApp {
 	      //System.out.println(name.toString()+" = "+value.toString());
 	      
 		  if(name.toString().contains("alt") )
-			  appToBeAdded = new App(value.toString(),null);
+			  appToBeAdded = new App(value.toString(),null,0,0);
 		  
 		  if( appToBeAdded!=null && name.toString().contains("href"))
 			  appToBeAdded = appToBeAdded;

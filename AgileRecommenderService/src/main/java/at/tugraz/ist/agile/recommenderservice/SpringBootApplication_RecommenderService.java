@@ -6,21 +6,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import at.tugraz.ist.agile.recommenderservice.marketplaces.AppMarketplace;
 import at.tugraz.ist.agile.recommenderservice.marketplaces.CloudMarketplace;
 import at.tugraz.ist.agile.recommenderservice.marketplaces.WorkflowMarketplace;
-import at.tugraz.ist.agile.recommenderservice.marketplaces.parsers.ParseApp;
+import at.tugraz.ist.agile.recommenderservice.marketplaces.parsers.ParseGooglePlayStore;
+import at.tugraz.ist.agile.recommenderservice.marketplaces.parsers.ParseDockerHub;
 import at.tugraz.ist.agile.recommenderservice.marketplaces.parsers.ParseCloud;
-import at.tugraz.ist.agile.recommenderservice.marketplaces.parsers.ParseWF;
+import at.tugraz.ist.agile.recommenderservice.marketplaces.parsers.ParseNodeRed;
 
 @SpringBootApplication
 public class SpringBootApplication_RecommenderService {
 
 	public static void main(String[] args) {
-		WorkflowMarketplace.initiate();
-		ParseWF.getWorkFlows();
-		WorkflowMarketplace.stopAddingToMarketplace();
-		
+
 		AppMarketplace.initiate();
-		ParseApp.getAppList("IoT");
+		ParseDockerHub.getAppList("IoT");
 		AppMarketplace.stopAddingToMarketplace();
+		
+		WorkflowMarketplace.initiate();
+		ParseNodeRed.getWorkFlows();
+		WorkflowMarketplace.stopAddingToMarketplace();
 		
 		CloudMarketplace.initiate();
 		ParseCloud.getClouds();

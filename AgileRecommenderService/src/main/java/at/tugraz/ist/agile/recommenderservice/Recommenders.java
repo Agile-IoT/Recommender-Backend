@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import at.tugraz.ist.agile.recommenderservice.marketplaces.parsers.ParseApp;
-import at.tugraz.ist.agile.recommenderservice.marketplaces.parsers.ParseWF;
+import at.tugraz.ist.agile.recommenderservice.marketplaces.parsers.ParseGooglePlayStore;
+import at.tugraz.ist.agile.recommenderservice.marketplaces.parsers.ParseNodeRed;
 import at.tugraz.ist.agile.recommenderservice.models.*;
 
 

@@ -76,7 +76,7 @@ public class RecommendApps {
 		    }
 		    
 			if(!alreadyPlaced)
-				recommendedApps.add(new App(d.get("title"),d.get("href")));
+				recommendedApps.add(new App(d.get("title"),d.get("href"),Integer.valueOf(d.get("stars")),Integer.valueOf(d.get("downloads"))));
 		}
 
 		// reader can only be closed when there
