@@ -51,7 +51,7 @@ public class Recommenders {
 		RecommendCloud recommendCloud = new RecommendCloud();
 		
 		try {
-			recommendCloud.getRecommendation(getQuery(profile));
+			recommendCloud.getRecommendation(profile);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,8 +104,8 @@ public class Recommenders {
 		}
 		
 		if(profi.devices.length()>0){
-		query3 = profi.devices.replace(" ", " OR ");
-		query3 = query3.replace(",", " OR ");
+			query3 = profi.devices.replace(" ", " OR ");
+			query3 = query3.replace(",", " OR ");
 		}
 		
 		query = (query+" OR "+ query1+" OR "+ query2+" OR "+ query3);

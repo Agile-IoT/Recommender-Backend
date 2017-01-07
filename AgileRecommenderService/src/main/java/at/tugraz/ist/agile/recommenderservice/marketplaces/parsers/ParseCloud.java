@@ -11,9 +11,6 @@ import at.tugraz.ist.agile.recommenderservice.models.Cloud;
 public class ParseCloud {
 	
 
-	public static void main(String[] args) {
-		getClouds();
-	}
 	public static void getClouds() {
 		 
 			Properties prop = new Properties();
