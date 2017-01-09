@@ -1,8 +1,8 @@
 package at.tugraz.ist.agile.recommender.models;
 
 public class GatewayProfile {
-	public long userID;
 	
+	public long userID;
 	public String devices;
 	public String apps;
 	public String wfs;
@@ -13,13 +13,14 @@ public class GatewayProfile {
 	public GatewayProfile(){
 		
 	}
-	public GatewayProfile (long id, String str1, String str2, String str3, String str4, String loc){
+	public GatewayProfile (long id, String str1, String str2, String str3, String str4, String loc,String pricing){
 		this.userID = id;
 		this.devices = str1;
 		this.apps = str2;
 		this.wfs = str3; 
 		this.resources = str4;
 		this.location = loc;
+		this.pricingPreferences = pricing;
 	}
 	
 	

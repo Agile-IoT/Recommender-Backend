@@ -2,13 +2,16 @@
 <%@ page session="false" %>
 <html>
 <head>
-	<title>Home</title>
+	<title>AGILE Recommender</title>
 </head>
 <body>
 <h1>
-	Hello world!  
+	Welcome to AGILE Recommender Service!  
 </h1>
 
-<P>  The time on the server is ${serverTime}. </P>
+<P> Service can be used via its web API using restful services. 
+<!-- 	https://github.com/Agile-IoT/Recommender/ -->
+<%-- 	The time on the server is ${serverTime}.  --%>
+</P>
 </body>
 </html>

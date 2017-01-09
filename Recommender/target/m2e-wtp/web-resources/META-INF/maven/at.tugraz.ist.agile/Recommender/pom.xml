@@ -32,6 +32,13 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.springframework</groupId> -->
+<!-- 		    <artifactId>spring-web</artifactId> -->
+<!-- 		    <version>${org.springframework-version}</version> -->
+<!-- 		</dependency> -->
+		
 				
 		<!-- AspectJ -->
 		<dependency>
@@ -149,7 +156,20 @@
 <!-- 		    <artifactId>mahout-core</artifactId> -->
 <!-- 		    <version>0.9</version> -->
 <!-- 		</dependency> -->
-		    
+<!-- JSON Serializer -->
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.4.4</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+
 	</dependencies>
     <build>
         <plugins>

@@ -54,7 +54,9 @@ public class ParseDockerHub {
 			      System.err.println(e);
 			    }
 			    pageNumber++;
+			    flag_ResultNotFound = true;
 		    }
+		   
 	  }
 
 	}

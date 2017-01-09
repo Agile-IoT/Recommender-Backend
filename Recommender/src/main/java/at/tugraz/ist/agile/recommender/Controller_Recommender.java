@@ -7,24 +7,25 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import at.tugraz.ist.agile.recommender.marketplaces.AppMarketplace;
-import at.tugraz.ist.agile.recommender.marketplaces.CloudMarketplace;
-import at.tugraz.ist.agile.recommender.marketplaces.WorkflowMarketplace;
-import at.tugraz.ist.agile.recommender.marketplaces.parsers.ParseCloud;
-import at.tugraz.ist.agile.recommender.marketplaces.parsers.ParseDockerHub;
-import at.tugraz.ist.agile.recommender.marketplaces.parsers.ParseNodeRed;
+import at.tugraz.ist.agile.recommender.marketplaces.*;
+import at.tugraz.ist.agile.recommender.marketplaces.parsers.*;
 import at.tugraz.ist.agile.recommender.models.*;
 
 @Controller
 public class Controller_Recommender {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Controller_Recommender.class);
-	
-	public static void main(String[] args) {
+	 
+
+	public static void initiate() {
 
 		AppMarketplace.initiate();
 		ParseDockerHub.getAppList("IoT");
@@ -54,23 +55,30 @@ public class Controller_Recommender {
 		return "home";
 	}
     
-    @ResponseBody
+    @RequestMapping(value = "/updateRepositories", method = RequestMethod.GET)
+	public String updateRepositories() {
+    	initiate();
+    	return "home";
+		
+	}
+   
+    
 	@RequestMapping(value = "/getAppRecommendation", method = RequestMethod.POST)
-	public List<App> getAppRecommendation(@RequestBody GatewayProfile profile) {
+	public @ResponseBody List<App> getAppRecommendation(@RequestBody GatewayProfile profile) {
 		
 		return Recommenders.getAppRecommendations(profile);
 	}
-    
-    @ResponseBody
-	@RequestMapping(value = "/getWorkflowRecommendation", method = RequestMethod.POST)
-	public List<Workflow> getWorkflowRecommendation(@RequestBody GatewayProfile profile) {
+   
+	
+	@RequestMapping(value = "/getWorkflowRecommendation")
+	public @ResponseBody List<Workflow> getWorkflowRecommendation(@RequestBody GatewayProfile profile) {
 		
 		return Recommenders.getWorklowRecommendations(profile);
-	}
-    
-    @ResponseBody
-	@RequestMapping(value = "/getCloudRecommendation", method = RequestMethod.POST)
-	public List<Cloud> getCloudRecommendation(@RequestBody GatewayProfile profile) {
+	} 
+	
+	
+	@RequestMapping(value = "/getCloudRecommendation")
+	public @ResponseBody List<Cloud> getCloudRecommendation(@RequestBody GatewayProfile profile) {
 		
 		return Recommenders.getCloudRecommendation(profile);
 	}
