@@ -4,15 +4,15 @@
 AGILE Recommender Service runs on server side.
 
 Provides 3 restful services: 
-* /getAppRecommendation
-* /getWorkflowRecommendation
-* /getCloudRecommendation
+* http://54.213.147.198:8080/recommender/getAppRecommendation
+* http://54.213.147.198:8080/recommender/getWorkflowRecommendation
+* http://54.213.147.198:8080/recommender/getCloudRecommendation
 
 
 Example Input and Output:
 
 ```
-INPUT: (Post Request to http://IP:PORT/getCloudRecommendation)
+INPUT: (Post Request to http://54.213.147.198:8080/recommender/getCloudRecommendation)
 
 {
 	"userID":1,	
