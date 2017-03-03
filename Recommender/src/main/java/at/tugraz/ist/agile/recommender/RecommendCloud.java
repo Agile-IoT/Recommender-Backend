@@ -78,8 +78,8 @@ public class RecommendCloud {
 		for (int i = 0; i < hits.length; ++i) {
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
-			System.out.println((i + 1) + ". TITLE:" + d.get("title"));
-			// recommendedClouds.add(new Cloud(d.get("title"), d.get("link"), d.get("accesstype"), d.get("locations"), d.get("middlewares"), d.get("frameworks"), d.get("runtimes"), d.get("services")));
+			System.out.println((i + 1) + ". Title:" + d.get("title"));
+			//recommendedClouds.add(new Cloud(d.get("title"), d.get("link"), d.get("accesstype"), d.get("locations"), d.get("middlewares"), d.get("frameworks"), d.get("runtimes"), d.get("services")));
 			
 			boolean alreadyPlaced = false;
 			Iterator<Cloud> iterator = recommendedClouds.iterator();

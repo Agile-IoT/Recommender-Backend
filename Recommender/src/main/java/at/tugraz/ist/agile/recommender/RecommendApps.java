@@ -25,7 +25,6 @@ import org.apache.lucene.store.RAMDirectory;
 
 import at.tugraz.ist.agile.recommender.marketplaces.AppMarketplace;
 import at.tugraz.ist.agile.recommender.models.App;
-import at.tugraz.ist.agile.recommender.models.Workflow;
 
 public class RecommendApps {
 
@@ -84,6 +83,5 @@ public class RecommendApps {
 		reader.close();
 	}
 
-	
 	
 }

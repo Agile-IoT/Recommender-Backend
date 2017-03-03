@@ -156,7 +156,8 @@
 <!-- 		    <artifactId>mahout-core</artifactId> -->
 <!-- 		    <version>0.9</version> -->
 <!-- 		</dependency> -->
-<!-- JSON Serializer -->
+
+		<!-- JSON Serializer -->
 		
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

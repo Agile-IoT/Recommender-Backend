@@ -1,0 +1,47 @@
+<html>
+<head>
+<script src="js/jquery-2.1.1.js"></script>
+<script src="smarthome.js"></script>
+<title>Test</title>
+</head>
+<body>
+<h1>Test</h1>
+<form>
+<input type="checkbox" id="isComfortControlNeeded">isComfortControlNeeded</input>
+<input type="checkbox" id="isEnergySavingNeeded">isEnergySavingNeeded</input>
+<input type="checkbox" id="isHealthSupportNeeded">isHealthSupportNeeded</input>
+<input type="checkbox" id="isSafetySecurityNeeded">isSafetySecurityNeeded</input>
+<input type="checkbox" id="isCostImportant">isCostImportant</input>
+<input type="checkbox" id="isStabilityNeeded">isStabilityNeeded</input>
+<input type="checkbox" id="isSensibleToElectricSmog">isSensibleToElectricSmog</input>
+<button type="button" onclick="sendToServer()">Submit</button>
+</form>
+
+<script type="text/javascript">
+function sendToServer() {
+	var userInput = {
+			isComfortControlNeeded: document.getElementById("isComfortControlNeeded").checked,
+			isEnergySavingNeeded: document.getElementById("isEnergySavingNeeded").checked,
+			isHealthSupportNeeded: document.getElementById("isHealthSupportNeeded").checked,
+			isSafetySecurityNeeded: document.getElementById("isSafetySecurityNeeded").checked,
+			isCostImportant: document.getElementById("isCostImportant").checked,
+			isStabilityNeeded: document.getElementById("isStabilityNeeded").checked,
+			isSensibleToElectricSmog: document.getElementById("isSensibleToElectricSmog").checked
+	};
+	
+	console.log(userInput);
+    var userInputObj = JSON.stringify(userInput);
+    console.log(userInputObj);
+    $.ajax({
+        url: "http://localhost:8080/rest/solver",
+        type: 'POST',
+        data: userInputObj,  
+        contentType: "application/json; charset=utf-8",
+        success: function(results) {
+        	console.log(results)
+        }
+    });
+}
+</script>
+</body>
+</html>

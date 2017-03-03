@@ -1,7 +1,10 @@
 package at.tugraz.ist.agile.recommender.models;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class GatewayProfile {
 	
+
 	public long userID;
 	public String devices;
 	public String apps;
@@ -11,6 +14,13 @@ public class GatewayProfile {
 	public String pricingPreferences;
 	
 	public GatewayProfile(){
+		this.userID = 0;
+		this.devices = "";
+		this.apps = "";
+		this.wfs = ""; 
+		this.resources = "";
+		this.location = "";
+		this.pricingPreferences = "";
 		
 	}
 	public GatewayProfile (long id, String str1, String str2, String str3, String str4, String loc,String pricing){

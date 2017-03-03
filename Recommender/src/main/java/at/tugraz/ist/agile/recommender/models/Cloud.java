@@ -1,7 +1,5 @@
 package at.tugraz.ist.agile.recommender.models;
 
-import java.util.List;
-
 public class Cloud {
 
 	public String title;
@@ -14,6 +12,9 @@ public class Cloud {
 	public String services;
 	public String pricing;
 	
+	public Cloud(){
+		
+	}
 	
 	public Cloud(String title, String link, String accesstype, String locations, String middlewares, String frameworks,
 			String runtimes, String services,String pricing) {
@@ -28,53 +29,83 @@ public class Cloud {
 		this.services = services;
 		this.pricing = pricing;
 	}
-	
-	
+
+
 	public String getTitle() {
 		return title;
 	}
-	public void setTitle(String name) {
-		this.title = name;
+
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
+
+
 	public String getLink() {
 		return link;
 	}
+
+
 	public void setLink(String link) {
 		this.link = link;
 	}
+
+
 	public String getAccesstype() {
 		return accesstype;
 	}
+
+
 	public void setAccesstype(String accesstype) {
 		this.accesstype = accesstype;
 	}
+
+
 	public String getLocations() {
 		return locations;
 	}
+
+
 	public void setLocations(String locations) {
 		this.locations = locations;
 	}
+
+
 	public String getMiddlewares() {
 		return middlewares;
 	}
+
+
 	public void setMiddlewares(String middlewares) {
 		this.middlewares = middlewares;
 	}
+
+
 	public String getFrameworks() {
 		return frameworks;
 	}
+
+
 	public void setFrameworks(String frameworks) {
 		this.frameworks = frameworks;
 	}
+
+
 	public String getRuntimes() {
 		return runtimes;
 	}
+
+
 	public void setRuntimes(String runtimes) {
 		this.runtimes = runtimes;
 	}
+
+
 	public String getServices() {
 		return services;
 	}
+
+
 	public void setServices(String services) {
 		this.services = services;
 	}
@@ -88,7 +119,5 @@ public class Cloud {
 	public void setPricing(String pricing) {
 		this.pricing = pricing;
 	}
-
-
 	
 }

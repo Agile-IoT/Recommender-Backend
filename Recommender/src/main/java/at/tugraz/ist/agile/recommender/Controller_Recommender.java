@@ -7,10 +7,7 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +35,10 @@ public class Controller_Recommender {
 		CloudMarketplace.initiate();
 		ParseCloud.getClouds();
 		CloudMarketplace.stopAddingToMarketplace();
+		
+		DeviceMarketplace.initiate();
+		ParseDeviceStore.getDevList("IoT");
+		DeviceMarketplace.stopAddingToMarketplace();
 	
 	}
   
@@ -55,6 +56,7 @@ public class Controller_Recommender {
 		return "home";
 	}
     
+
     @RequestMapping(value = "/updateRepositories", method = RequestMethod.GET)
 	public String updateRepositories() {
     	initiate();
@@ -64,23 +66,37 @@ public class Controller_Recommender {
    
     
 	@RequestMapping(value = "/getAppRecommendation", method = RequestMethod.POST)
-	public @ResponseBody List<App> getAppRecommendation(@RequestBody GatewayProfile profile) {
+	public @ResponseBody RecommendedApps getAppRecommendation(@RequestBody GatewayProfile profile) {
 		
-		return Recommenders.getAppRecommendations(profile);
+		RecommendedApps appList = new RecommendedApps();
+		appList.setAppList(Recommenders.getAppRecommendations(profile));
+		return appList;
+	}
+	
+	@RequestMapping(value = "/getDeviceRecommendation", method = RequestMethod.POST)
+	public @ResponseBody RecommendedDevices getDeviceRecommendation(@RequestBody GatewayProfile profile) {
+		
+		RecommendedDevices devList = new RecommendedDevices();
+		devList.setDeviceList(Recommenders.getDevRecommendations(profile));
+		return devList;
 	}
    
 	
-	@RequestMapping(value = "/getWorkflowRecommendation")
-	public @ResponseBody List<Workflow> getWorkflowRecommendation(@RequestBody GatewayProfile profile) {
+	@RequestMapping(value = "/getWorkflowRecommendation", method = RequestMethod.POST)
+	public @ResponseBody RecommendedWFs getWorkflowRecommendation(@RequestBody GatewayProfile profile) {
 		
-		return Recommenders.getWorklowRecommendations(profile);
+		RecommendedWFs wfList = new RecommendedWFs();
+		wfList.setWfList(Recommenders.getWorklowRecommendations(profile));
+		return wfList;
 	} 
 	
 	
-	@RequestMapping(value = "/getCloudRecommendation")
-	public @ResponseBody List<Cloud> getCloudRecommendation(@RequestBody GatewayProfile profile) {
+	@RequestMapping(value = "/getCloudRecommendation", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody RecommendedClouds getCloudRecommendation(@RequestBody GatewayProfile profile) {
 		
-		return Recommenders.getCloudRecommendation(profile);
+		RecommendedClouds clList = new RecommendedClouds();
+		clList.setCloudList(Recommenders.getCloudRecommendation(profile));
+		return clList;
 	}
 
    
