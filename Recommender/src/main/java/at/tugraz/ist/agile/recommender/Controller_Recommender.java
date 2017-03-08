@@ -81,7 +81,6 @@ public class Controller_Recommender {
 		return devList;
 	}
    
-	
 	@RequestMapping(value = "/getWorkflowRecommendation", method = RequestMethod.POST)
 	public @ResponseBody RecommendedWFs getWorkflowRecommendation(@RequestBody GatewayProfile profile) {
 		
@@ -90,7 +89,6 @@ public class Controller_Recommender {
 		return wfList;
 	} 
 	
-	
 	@RequestMapping(value = "/getCloudRecommendation", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody RecommendedClouds getCloudRecommendation(@RequestBody GatewayProfile profile) {
 		
@@ -98,6 +96,6 @@ public class Controller_Recommender {
 		clList.setCloudList(Recommenders.getCloudRecommendation(profile));
 		return clList;
 	}
-
+	
    
 }
