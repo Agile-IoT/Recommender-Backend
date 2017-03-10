@@ -56,7 +56,7 @@ public class ParseDeviceStore {
 			      System.err.println(e);
 			    }
 			    pageNumber++;
-			    flag_ResultNotFound = true;
+			    //flag_ResultNotFound = true;
 		    }
 		   
 	  }
