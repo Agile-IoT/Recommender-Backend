@@ -51,19 +51,7 @@ public class RecommendCloud {
 		System.out.println("LUCENE will calculate recommendation for clouds");
 		generateQuery(profile);
 		
-		// the "title" arg specifies the default field to use
-		// when no field is explicitly specified in the query.
-		//Query q = null;
-		//String[] fields={"services","locations","pricing"};
-//		try {
-//			
-//			MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, CloudMarketplace.analyzer_cloud);
-//		    parser.setDefaultOperator(QueryParser.Operator.AND);
-//		    q= parser.parse(finalQuery);
-//			//q = new QueryParser("services",CloudMarketplace.analyzer_cloud).parse(querystr);
-//		} catch (org.apache.lucene.queryparser.classic.ParseException e) {
-//			e.printStackTrace();
-//		}
+		
 
 		// 3. search
 		int hitsPerPage = 10;
@@ -79,7 +67,6 @@ public class RecommendCloud {
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
 			System.out.println((i + 1) + ". Title:" + d.get("title"));
-			//recommendedClouds.add(new Cloud(d.get("title"), d.get("link"), d.get("accesstype"), d.get("locations"), d.get("middlewares"), d.get("frameworks"), d.get("runtimes"), d.get("services")));
 			
 			boolean alreadyPlaced = false;
 			Iterator<Cloud> iterator = recommendedClouds.iterator();
@@ -102,18 +89,16 @@ public class RecommendCloud {
 	}
 	
 	public void generateQuery(GatewayProfile profile){
-		//queryCloud= "locations:"+profile.getLocation()+" "+"services: jenkins";
-		
+	
 		String[] fields= {"locations","pricing"};
 		String[] queries = {profile.getLocation(),profile.getPricingPreferences()};
-		// Occur[] flags = {Occur.MUST, Occur.MUST};
 	
 		BooleanClause.Occur[] flags = {BooleanClause.Occur.MUST,
 		                BooleanClause.Occur.MUST};
 		 
 		 
 		MultiFieldQueryParser queryParserCloud = new MultiFieldQueryParser(queries, CloudMarketplace.analyzer_cloud);
-		//queryParserCloud.setDefaultOperator(QueryParser.Operator.AND);
+		
 	    try {
 			finalQuery= queryParserCloud.parse(queries, fields, flags, CloudMarketplace.analyzer_cloud);
 		} catch (org.apache.lucene.queryparser.classic.ParseException e1) {
