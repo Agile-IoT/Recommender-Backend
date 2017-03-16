@@ -25,14 +25,15 @@ import org.apache.lucene.store.RAMDirectory;
 
 import at.tugraz.ist.agile.recommender.marketplaces.AppMarketplace;
 import at.tugraz.ist.agile.recommender.models.App;
+import at.tugraz.ist.agile.recommender.models.ListOfApps;
 
 public class RecommendApps {
 
 	
-	public List<App> recommendedApps;
+	public ListOfApps recommendedApps;
 	
 	RecommendApps(){
-		this.recommendedApps = new ArrayList<App>();
+		this.recommendedApps = new ListOfApps();
 	}
 	
 	
@@ -65,7 +66,7 @@ public class RecommendApps {
 			System.out.println((i + 1) + ". TITLE:" + d.get("title") + " HREF:" + d.get("href"));
 			
 			boolean alreadyPlaced = false;
-			Iterator<App> iterator = recommendedApps.iterator();
+			Iterator<App> iterator = recommendedApps.getAppList().iterator();
 		    while(iterator.hasNext()) {
 		        App setElement = iterator.next();
 		        if(setElement.getTitle().equals(d.get("title"))) {
@@ -75,7 +76,7 @@ public class RecommendApps {
 		    }
 		    
 			if(!alreadyPlaced)
-				recommendedApps.add(new App(d.get("title"),d.get("href"),Integer.valueOf(d.get("stars")),Integer.valueOf(d.get("downloads"))));
+				recommendedApps.getAppList().add(new App(d.get("title"),d.get("href"),Integer.valueOf(d.get("stars")),Integer.valueOf(d.get("downloads"))));
 		}
 
 		// reader can only be closed when there

@@ -32,18 +32,19 @@ import at.tugraz.ist.agile.recommender.marketplaces.CloudMarketplace;
 import at.tugraz.ist.agile.recommender.marketplaces.WorkflowMarketplace;
 import at.tugraz.ist.agile.recommender.models.Cloud;
 import at.tugraz.ist.agile.recommender.models.GatewayProfile;
+import at.tugraz.ist.agile.recommender.models.ListOfClouds;
 import at.tugraz.ist.agile.recommender.models.Workflow;
 
 
 public class RecommendCloud {
 	
-	public List<Cloud> recommendedClouds;
+	public ListOfClouds recommendedClouds;
 	public String queryCloud;
 	//public Query finalQuery;
 	public Query finalQuery;
 	
 	RecommendCloud(){
-		this.recommendedClouds = new ArrayList<Cloud>();
+		this.recommendedClouds = new ListOfClouds();
 	}
 	
 	public void getRecommendation(GatewayProfile profile) throws IOException, ParseException {
@@ -69,7 +70,7 @@ public class RecommendCloud {
 			System.out.println((i + 1) + ". Title:" + d.get("title"));
 			
 			boolean alreadyPlaced = false;
-			Iterator<Cloud> iterator = recommendedClouds.iterator();
+			Iterator<Cloud> iterator = recommendedClouds.getCloudList().iterator();
 		    while(iterator.hasNext()) {
 		        Cloud setElement = iterator.next();
 		        if(setElement.getTitle().equals(d.get("title"))) {
@@ -79,7 +80,7 @@ public class RecommendCloud {
 		    }
 		    
 			if(!alreadyPlaced)
-				recommendedClouds.add(new Cloud(d.get("title"), d.get("link"), d.get("accesstype"), d.get("locations"), d.get("middlewares"), d.get("frameworks"), d.get("runtimes"), d.get("services"),d.get("pricing")));
+				recommendedClouds.getCloudList().add(new Cloud(d.get("title"), d.get("link"), d.get("accesstype"), d.get("locations"), d.get("middlewares"), d.get("frameworks"), d.get("runtimes"), d.get("services"),d.get("pricing")));
 			
 		}
 
@@ -94,7 +95,7 @@ public class RecommendCloud {
 		String[] queries = {profile.getLocation(),profile.getPricingPreferences()};
 	
 		BooleanClause.Occur[] flags = {BooleanClause.Occur.MUST,
-		                BooleanClause.Occur.MUST};
+		                BooleanClause.Occur.SHOULD};
 		 
 		 
 		MultiFieldQueryParser queryParserCloud = new MultiFieldQueryParser(queries, CloudMarketplace.analyzer_cloud);

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import at.tugraz.ist.agile.recommender.collaborative.CollaborativeFiltering;
 import at.tugraz.ist.agile.recommender.marketplaces.parsers.ParseGooglePlayStore;
 import at.tugraz.ist.agile.recommender.marketplaces.parsers.ParseNodeRed;
 import at.tugraz.ist.agile.recommender.models.*;
@@ -13,7 +14,7 @@ import at.tugraz.ist.agile.recommender.models.*;
 
 public class Recommenders {
 	
-	public static List<App> getAppRecommendations(GatewayProfile profile){
+	public static ListOfApps getAppRecommendations(GatewayProfile profile){
 		
 		String query = getQuery(profile);
 		
@@ -28,10 +29,19 @@ public class Recommenders {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return recommendApp.recommendedApps;
+		
+		
+		CollaborativeFiltering cf = new CollaborativeFiltering();
+		ListOfApps recommondedApps_CF = cf.getAppRecommendation(profile);
+		
+		ListOfApps recommondedApps_CB = recommendApp.recommendedApps;
+		ListOfApps totalList = new ListOfApps(); 
+		totalList.getAppList().addAll(recommondedApps_CF.getAppList());
+		totalList.getAppList().addAll(recommondedApps_CB.getAppList());
+		return totalList;
 	}
 	
-	public static List<Device> getDevRecommendations(GatewayProfile profile){
+	public static ListOfDevices getDevRecommendations(GatewayProfile profile){
 		
 		String query = getQuery(profile);
 		
@@ -46,10 +56,21 @@ public class Recommenders {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return recommendDev.recommendedDevices;
+		
+
+		CollaborativeFiltering cf = new CollaborativeFiltering();
+		ListOfDevices recommondedDevs_CF = cf.getDeviceRecommendation(profile);
+		
+		ListOfDevices recommondedDevs_CB = recommendDev.recommendedDevices;
+		
+		ListOfDevices totalList = new ListOfDevices(); 
+		totalList.getDeviceList().addAll(recommondedDevs_CF.getDeviceList());
+		totalList.getDeviceList().addAll(recommondedDevs_CB.getDeviceList());
+		return totalList;
+		
 	}
 	
-	public static List<Workflow> getWorklowRecommendations(GatewayProfile profile){
+	public static ListOfWFs getWorklowRecommendations(GatewayProfile profile){
 		
 		RecommendWorkFlow recommendWf = new RecommendWorkFlow();
 		
@@ -62,10 +83,24 @@ public class Recommenders {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return recommendWf.recommendedWorkflows;
+		//return recommendWf.recommendedWorkflows;
+		
+		ListOfWFs recommondedWf_CB = recommendWf.recommendedWorkflows;
+
+		CollaborativeFiltering cf = new CollaborativeFiltering();
+		ListOfWFs recommondedWf_CF = cf.getWorkflowRecommendation(profile);
+		
+		ListOfWFs totalList = new ListOfWFs(); 
+		totalList.getWfList().addAll(recommondedWf_CF.getWfList());
+		totalList.getWfList().addAll(recommondedWf_CB.getWfList());
+		
+		return totalList;
+		
+		
 	}
 	
-	public static List<Cloud> getCloudRecommendation(GatewayProfile profile){
+	public static ListOfClouds getCloudRecommendation(GatewayProfile profile){
+		
 		RecommendCloud recommendCloud = new RecommendCloud();
 		
 		try {
@@ -77,7 +112,17 @@ public class Recommenders {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return recommendCloud.recommendedClouds;
+		ListOfClouds recommondedCl_CB = recommendCloud.recommendedClouds;
+
+		CollaborativeFiltering cf = new CollaborativeFiltering();
+		ListOfClouds recommondedCl_CF = cf.getCloudRecommendation(profile);
+		
+		ListOfClouds totalList = new ListOfClouds(); 
+		totalList.getCloudList().addAll(recommondedCl_CF.getCloudList());
+		totalList.getCloudList().addAll(recommondedCl_CB.getCloudList());
+		
+		return totalList;
+	
 	}
 	
 	private static String getRecommAppStr(String results, List<App> appList){
@@ -106,27 +151,27 @@ public class Recommenders {
 	
 	private static String getQuery(GatewayProfile profi){
 		
-		String query  = "iot";
+		String query  = "Raspberry";
 		String query1 = "";
 		String query2 = "";
 		String query3 = "";
 		
-		if(profi.apps.length()>0){
-			query1 = profi.apps.replace(" ", " OR ");
-			query1 = query1.replace(",", " OR ");
-			query += query+" OR "+ query1;
+		if(profi.apps.getAppList()!=null)
+		for(int i=0;i<profi.apps.getAppList().size();i++){
+			query1 = profi.apps.getAppList().get(i).getTitle();
+			query = query+" OR "+ query1;
 		}
 		
-		if(profi.wfs.length()>0){
-			query2 = profi.wfs.replace(" ", " OR ");
-			query2 = query2.replace(",", " OR ");
-			query += query+" OR "+ query2;
+		if(profi.wfs.getWfList()!=null)
+		for(int i=0;i<profi.wfs.getWfList().size();i++){
+			query2 = profi.wfs.getWfList().get(i).getDatatag();
+			query = query+" OR "+ query2;
 		}
 		
-		if(profi.devices.length()>0){
-			query3 = profi.devices.replace(" ", " OR ");
-			query3 = query3.replace(",", " OR ");
-			query += query+" OR "+ query3;
+		if(profi.devices.getDeviceList()!=null)
+		for(int i=0;i<profi.devices.getDeviceList().size();i++){
+			query3 = profi.devices.getDeviceList().get(i).getTitle();
+			query = query+" OR "+ query3;
 		}
 		
 		return query;

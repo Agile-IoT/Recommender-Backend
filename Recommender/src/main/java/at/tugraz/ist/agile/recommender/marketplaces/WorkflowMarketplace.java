@@ -1,6 +1,7 @@
 package at.tugraz.ist.agile.recommender.marketplaces;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
 
 import at.tugraz.ist.agile.recommender.models.App;
@@ -30,6 +32,13 @@ public class WorkflowMarketplace {
 		analyzer_wf = new StandardAnalyzer();
 		// 1. create the index
 		directoryIndex_wf = new RAMDirectory();
+//		try {
+//			directoryIndex_wf = FSDirectory.open(Paths.get("C:\\temp\\index_workflow.lucene"));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
 		IndexWriterConfig config = new IndexWriterConfig(analyzer_wf);
 	    try {
 	    	indexWriter_wfMarketplace = new IndexWriter(directoryIndex_wf, config);

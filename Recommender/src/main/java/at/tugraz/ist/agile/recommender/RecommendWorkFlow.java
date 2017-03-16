@@ -24,15 +24,16 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 
 import at.tugraz.ist.agile.recommender.marketplaces.WorkflowMarketplace;
+import at.tugraz.ist.agile.recommender.models.ListOfWFs;
 import at.tugraz.ist.agile.recommender.models.Workflow;
 
 
 public class RecommendWorkFlow {
 	
-	public List<Workflow> recommendedWorkflows;
+	public ListOfWFs recommendedWorkflows;
 	
 	RecommendWorkFlow(){
-		this.recommendedWorkflows = new ArrayList<Workflow>();
+		this.recommendedWorkflows = new ListOfWFs();
 	}
 	
 	public void getRecommendation(String querystr) throws IOException, ParseException {
@@ -62,11 +63,11 @@ public class RecommendWorkFlow {
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
 			System.out.println((i + 1) + ". TYPE:" + d.get("type") + "\tDATATAG:" + d.get("datatag") + "\tDATAOWNER:" + d.get("dataowner") +"\tHREF:" + d.get("href"));
-			if(!recommendedWorkflows.contains(new Workflow(d.get("type"), d.get("datatag"), d.get("dataowner"), d.get("href"))))
-				recommendedWorkflows.add(new Workflow(d.get("type"), d.get("datatag"), d.get("dataowner"), d.get("href")));
+			if(!recommendedWorkflows.getWfList().contains(new Workflow(d.get("type"), d.get("datatag"), d.get("dataowner"), d.get("href"))))
+				recommendedWorkflows.getWfList().add(new Workflow(d.get("type"), d.get("datatag"), d.get("dataowner"), d.get("href")));
 			
 			boolean alreadyPlaced = false;
-			Iterator<Workflow> iterator = recommendedWorkflows.iterator();
+			Iterator<Workflow> iterator = recommendedWorkflows.getWfList().iterator();
 		    while(iterator.hasNext()) {
 		        Workflow setElement = iterator.next();
 		        if(setElement.getHref().equals(d.get("href"))) {
@@ -76,7 +77,7 @@ public class RecommendWorkFlow {
 		    }
 		    
 			if(!alreadyPlaced)
-				recommendedWorkflows.add(new Workflow(d.get("type"), d.get("datatag"), d.get("dataowner"), d.get("href")));
+				recommendedWorkflows.getWfList().add(new Workflow(d.get("type"), d.get("datatag"), d.get("dataowner"), d.get("href")));
 		
 		}
 

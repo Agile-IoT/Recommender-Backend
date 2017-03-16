@@ -6,24 +6,24 @@ public class GatewayProfile {
 	
 
 	public long userID;
-	public String devices;
-	public String apps;
-	public String wfs;
+	public ListOfDevices devices;
+	public ListOfApps apps;
+	public ListOfWFs wfs;
 	public String resources;
 	public String location;
 	public String pricingPreferences;
 	
 	public GatewayProfile(){
 		this.userID = 0;
-		this.devices = "";
-		this.apps = "";
-		this.wfs = ""; 
+		this.devices = new ListOfDevices();
+		this.apps = new ListOfApps();;
+		this.wfs = new ListOfWFs();; 
 		this.resources = "";
 		this.location = "";
 		this.pricingPreferences = "";
 		
 	}
-	public GatewayProfile (long id, String str1, String str2, String str3, String str4, String loc,String pricing){
+	public GatewayProfile (long id, ListOfDevices str1, ListOfApps str2, ListOfWFs str3, String str4, String loc,String pricing){
 		this.userID = id;
 		this.devices = str1;
 		this.apps = str2;
@@ -40,24 +40,7 @@ public class GatewayProfile {
 	public void setUserID(long userID) {
 		this.userID = userID;
 	}
-	public String getDevices() {
-		return devices;
-	}
-	public void setDevices(String devices) {
-		this.devices = devices;
-	}
-	public String getApps() {
-		return apps;
-	}
-	public void setApps(String apps) {
-		this.apps = apps;
-	}
-	public String getWfs() {
-		return wfs;
-	}
-	public void setWfs(String wfs) {
-		this.wfs = wfs;
-	}
+
 	public String getResources() {
 		return resources;
 	}
@@ -75,6 +58,24 @@ public class GatewayProfile {
 	}
 	public void setPricingPreferences(String pricingPreferences) {
 		this.pricingPreferences = pricingPreferences;
+	}
+	public ListOfDevices getDevices() {
+		return devices;
+	}
+	public void setDevices(ListOfDevices devices) {
+		this.devices = devices;
+	}
+	public ListOfApps getApps() {
+		return apps;
+	}
+	public void setApps(ListOfApps apps) {
+		this.apps = apps;
+	}
+	public ListOfWFs getWfs() {
+		return wfs;
+	}
+	public void setWfs(ListOfWFs wfs) {
+		this.wfs = wfs;
 	}
 	
 	

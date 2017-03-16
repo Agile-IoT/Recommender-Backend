@@ -56,6 +56,13 @@ public class Controller_Recommender {
 		return "home";
 	}
     
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+	public @ResponseBody GatewayProfile test(@RequestBody GatewayProfile profile) {
+		GatewayProfile prof = new GatewayProfile();
+		prof.devices.addDevice(new Device("devicename", "hrefofdevice"));
+		
+		return prof;
+	}
 
     @RequestMapping(value = "/updateRepositories", method = RequestMethod.GET)
 	public String updateRepositories() {
@@ -63,37 +70,35 @@ public class Controller_Recommender {
     	return "home";
 		
 	}
-   
     
 	@RequestMapping(value = "/getAppRecommendation", method = RequestMethod.POST)
-	public @ResponseBody RecommendedApps getAppRecommendation(@RequestBody GatewayProfile profile) {
-		
-		RecommendedApps appList = new RecommendedApps();
-		appList.setAppList(Recommenders.getAppRecommendations(profile));
+	public @ResponseBody ListOfApps getAppRecommendation(@RequestBody GatewayProfile profile) {
+		ListOfApps appList = new ListOfApps();
+		appList = Recommenders.getAppRecommendations(profile);
 		return appList;
 	}
 	
 	@RequestMapping(value = "/getDeviceRecommendation", method = RequestMethod.POST)
-	public @ResponseBody RecommendedDevices getDeviceRecommendation(@RequestBody GatewayProfile profile) {
+	public @ResponseBody ListOfDevices getDeviceRecommendation(@RequestBody GatewayProfile profile) {
 		
-		RecommendedDevices devList = new RecommendedDevices();
-		devList.setDeviceList(Recommenders.getDevRecommendations(profile));
+		ListOfDevices devList = new ListOfDevices();
+		devList = Recommenders.getDevRecommendations(profile);
 		return devList;
 	}
    
 	@RequestMapping(value = "/getWorkflowRecommendation", method = RequestMethod.POST)
-	public @ResponseBody RecommendedWFs getWorkflowRecommendation(@RequestBody GatewayProfile profile) {
+	public @ResponseBody ListOfWFs getWorkflowRecommendation(@RequestBody GatewayProfile profile) {
 		
-		RecommendedWFs wfList = new RecommendedWFs();
-		wfList.setWfList(Recommenders.getWorklowRecommendations(profile));
+		ListOfWFs wfList = new ListOfWFs();
+		wfList = Recommenders.getWorklowRecommendations(profile);
 		return wfList;
 	} 
 	
 	@RequestMapping(value = "/getCloudRecommendation", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody RecommendedClouds getCloudRecommendation(@RequestBody GatewayProfile profile) {
+	public @ResponseBody ListOfClouds getCloudRecommendation(@RequestBody GatewayProfile profile) {
 		
-		RecommendedClouds clList = new RecommendedClouds();
-		clList.setCloudList(Recommenders.getCloudRecommendation(profile));
+		ListOfClouds clList = new ListOfClouds();
+		clList = Recommenders.getCloudRecommendation(profile);
 		return clList;
 	}
 	

@@ -1,6 +1,7 @@
 package at.tugraz.ist.agile.recommender.marketplaces;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
 
 import at.tugraz.ist.agile.recommender.models.Cloud;
@@ -29,6 +31,13 @@ public class CloudMarketplace {
 		analyzer_cloud = new StandardAnalyzer();
 		// 1. create the index
 		directoryIndex_cloud = new RAMDirectory();
+//		try {
+//			directoryIndex_cloud = FSDirectory.open(Paths.get("C:\\temp\\index_cloud.lucene"));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
 		IndexWriterConfig config = new IndexWriterConfig(analyzer_cloud);
 	    try {
 	    	indexWriter_cloudMarketplace = new IndexWriter(directoryIndex_cloud, config);

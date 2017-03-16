@@ -26,15 +26,16 @@ import org.apache.lucene.store.RAMDirectory;
 
 import at.tugraz.ist.agile.recommender.marketplaces.DeviceMarketplace;
 import at.tugraz.ist.agile.recommender.models.Device;
+import at.tugraz.ist.agile.recommender.models.ListOfDevices;
 
 
 public class RecommendDevices {
 
 	
-	public List<Device> recommendedDevices;
+	public ListOfDevices recommendedDevices;
 	
 	RecommendDevices(){
-		this.recommendedDevices = new ArrayList<Device>();
+		this.recommendedDevices = new ListOfDevices();
 	}
 	
 	
@@ -67,7 +68,7 @@ public class RecommendDevices {
 			System.out.println((i + 1) + ". TITLE:" + d.get("title") + " HREF:" + d.get("href"));
 			
 			boolean alreadyPlaced = false;
-			Iterator<Device> iterator = recommendedDevices.iterator();
+			Iterator<Device> iterator = recommendedDevices.getDeviceList().iterator();
 		    while(iterator.hasNext()) {
 		        Device setElement = iterator.next();
 		        if(setElement.getTitle().equals(d.get("title"))) {
@@ -76,8 +77,9 @@ public class RecommendDevices {
 		        }
 		    }
 		    
-			if(!alreadyPlaced)
-				recommendedDevices.add(new Device(d.get("title"),d.get("href")));
+			if(!alreadyPlaced){
+				recommendedDevices.addDevice(new Device(d.get("title"),d.get("href")));
+			}
 		}
 
 		// reader can only be closed when there
