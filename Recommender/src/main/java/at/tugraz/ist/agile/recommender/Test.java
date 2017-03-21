@@ -88,6 +88,7 @@ public class Test {
 	}
 	
 	public static void testCollaborativeFiltering (){
+		
 		System.out.println("testCollaborativeFiltering");
 		
 		try {

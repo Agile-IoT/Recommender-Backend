@@ -34,27 +34,35 @@ public class ParseDockerHub {
 	  
 	  public static boolean flag_ResultNotFound = false;
 	  
-	  public static void getAppList(String query) {
+	  public static void getAppList() {
+		  	flag_ResultNotFound= false;
 		  	AppMarketplace.appList.clear();
 		    ParserGetter kit = new ParserGetter();
 		    HTMLEditorKit.Parser parser = kit.getParser();
 		    HTMLEditorKit.ParserCallback callback = new ReportAttributes_app2();
 		    
-		    query=query.replaceAll(" ", "+");
+		   
 		    int pageNumber = 1;
+		    int size = AppMarketplace.appList.size();
+		    
 		    while(!flag_ResultNotFound){
 			    try {
-			    	String url = "https://hub.docker.com/search/?isAutomated=0&isOfficial=0&page="+pageNumber+"&pullCount=0&q=REPLACE&starCount=0";
-			    	url = url.replaceAll("REPLACE", query);
+			    	//String url = "https://hub.docker.com/search/?isAutomated=0&isOfficial=0&page="+pageNumber+"&pullCount=0&q=REPLACE&starCount=0";
+			    	String url = "https://hub.docker.com/u/agileiot/?page="+pageNumber;
+			    	//url = url.replaceAll("REPLACE", query);
 				    URL u = new URL(url);
 				    InputStream in = u.openStream();
 				    InputStreamReader r = new InputStreamReader(in);
 				    parser.parse(r, callback, false);
 			    } catch (IOException e) {
 			      System.err.println(e);
+			      flag_ResultNotFound = true;
 			    }
 			    pageNumber++;
-			    flag_ResultNotFound = true;
+			    if(size == AppMarketplace.appList.size())
+			    	flag_ResultNotFound = true;
+			    else
+			    	size =AppMarketplace.appList.size();
 		    }
 		   
 	  }
@@ -77,11 +85,7 @@ public class ParseDockerHub {
 	      size = AppMarketplace.appList.size();
 	      Object name = e.nextElement();
 	      Object value = attributes.getAttribute(name);
-	     
-	     
-	      if(value.toString().contains("ResultsNotFound")){
-	    	  ParseDockerHub.flag_ResultNotFound = true;
-	      }
+	   
 		  if(value.toString().contains("RepositoryListItem__flexible") ){
 			  appToBeAdded = new App(null,null,-1,-1);
 		  }

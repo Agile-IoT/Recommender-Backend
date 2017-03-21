@@ -25,7 +25,7 @@ public class Controller_Recommender {
 	public static void initiate() {
 
 		AppMarketplace.initiate();
-		ParseDockerHub.getAppList("IoT");
+		ParseDockerHub.getAppList();
 		AppMarketplace.stopAddingToMarketplace();
 		
 		WorkflowMarketplace.initiate();
@@ -37,7 +37,7 @@ public class Controller_Recommender {
 		CloudMarketplace.stopAddingToMarketplace();
 		
 		DeviceMarketplace.initiate();
-		ParseDeviceStore.getDevList("IoT");
+		ParseDeviceStore.getDevList();
 		DeviceMarketplace.stopAddingToMarketplace();
 	
 	}
@@ -97,6 +97,10 @@ public class Controller_Recommender {
 	@RequestMapping(value = "/getCloudRecommendation", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ListOfClouds getCloudRecommendation(@RequestBody GatewayProfile profile) {
 		
+		if(profile.location=="")
+			profile.location = "EU";
+		if(profile.pricingPreferences=="")
+			profile.pricingPreferences = "free";
 		ListOfClouds clList = new ListOfClouds();
 		clList = Recommenders.getCloudRecommendation(profile);
 		return clList;

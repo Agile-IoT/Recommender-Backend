@@ -137,6 +137,7 @@ public class CollaborativeFiltering {
 		int numberOfApps = 0;
 		int numberOfWfs = 0;
 		int numberOfDevices = 0;
+		int numberOfClouds = 0;
 		
 		
 		if(profile.apps.getAppList()!=null)
@@ -145,6 +146,9 @@ public class CollaborativeFiltering {
 			numberOfWfs = profile.wfs.getWfList().size();
 		if(profile.devices.getDeviceList()!=null)
 			numberOfDevices = profile.devices.getDeviceList().size();
+		if(profile.clouds.getCloudList()!=null)
+			numberOfClouds = profile.clouds.getCloudList().size();
+		
 		int itemNumber=-2;
 		
 		for(int i=0;i<numberOfApps;i++){
@@ -166,6 +170,15 @@ public class CollaborativeFiltering {
 				itemNumber=appendToBottomOfFile("Device,"+profile.devices.getDeviceList().get(i).getHref(),itemsFile);
 			appendToBottomOfFile(newuserID+","+itemNumber+",5.0",userProfilesFile);
 		}
+		
+		for(int i=0;i<numberOfClouds;i++){
+			itemNumber = parseFile(profile.clouds.getCloudList().get(i).getLink());
+			if(itemNumber<0)
+				itemNumber=appendToBottomOfFile("Cloud,"+profile.clouds.getCloudList().get(i).getLink(),itemsFile);
+			appendToBottomOfFile(newuserID+","+itemNumber+",5.0",userProfilesFile);
+		}
+		
+	
 		return newuserID;
 		
 	}

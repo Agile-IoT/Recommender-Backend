@@ -37,13 +37,12 @@ public class ParseDeviceStore {
 	  public static boolean flag_ResultNotFound = false;
 	  public static int falseAttemptCounter=0;
 	  
-	  public static void getDevList(String query) {
+	  public static void getDevList() {
+		  	flag_ResultNotFound= false;
 		  	DeviceMarketplace.devList.clear();
 		    ParserGetter kit = new ParserGetter();
 		    HTMLEditorKit.Parser parser = kit.getParser();
 		    HTMLEditorKit.ParserCallback callback = new ReportAttributes_dev();
-		    
-		    query=query.replaceAll(" ", "+");
 		    int pageNumber = 1;
 		    //System.setProperty("http.agent", "");
 		    while(!flag_ResultNotFound){

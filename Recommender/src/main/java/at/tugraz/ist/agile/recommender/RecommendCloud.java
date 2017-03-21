@@ -92,7 +92,7 @@ public class RecommendCloud {
 	public void generateQuery(GatewayProfile profile){
 	
 		String[] fields= {"locations","pricing"};
-		String[] queries = {profile.getLocation(),profile.getPricingPreferences()};
+		String[] queries = {profile.getLocation(),profile.getPricingPreferences().replaceAll(",", " OR ")};
 	
 		BooleanClause.Occur[] flags = {BooleanClause.Occur.MUST,
 		                BooleanClause.Occur.SHOULD};
@@ -106,8 +106,6 @@ public class RecommendCloud {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		
 	}
 }
 
