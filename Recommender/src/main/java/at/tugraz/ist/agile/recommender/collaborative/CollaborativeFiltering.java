@@ -45,10 +45,13 @@ public class CollaborativeFiltering {
 	 List<RecommendedItem> recommendations=null;
 
 	 
-	 public String itemsFile = "C:\\Users\\spolater\\Desktop\\AGILE\\AGILE-GITHUB\\Recommender\\Recommender\\files\\items.data";
-	 public String userProfilesFile = "C:\\Users\\spolater\\Desktop\\AGILE\\AGILE-GITHUB\\Recommender\\Recommender\\files\\UserProfiles.data";
+	//public String itemsFile = "C:\\Users\\spolater\\Desktop\\AGILE\\AGILE-GITHUB\\Recommender\\Recommender\\files\\items.data";
+	//public String userProfilesFile = "C:\\Users\\spolater\\Desktop\\AGILE\\AGILE-GITHUB\\Recommender\\Recommender\\files\\UserProfiles.data";
 	
+	public String itemsFile = "/usr/share/tomcat8/webapps/files/items.data";
+	public String userProfilesFile = "/usr/share/tomcat8/webapps/files/UserProfiles.data";
 	
+	 
 	ListOfApps apps = new ListOfApps();
 	ListOfDevices devs = new ListOfDevices();
 	ListOfWFs wfs = new ListOfWFs();

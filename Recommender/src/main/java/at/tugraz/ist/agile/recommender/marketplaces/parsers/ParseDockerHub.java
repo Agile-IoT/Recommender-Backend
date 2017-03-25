@@ -47,9 +47,9 @@ public class ParseDockerHub {
 		    
 		    while(!flag_ResultNotFound){
 			    try {
-			    	//String url = "https://hub.docker.com/search/?isAutomated=0&isOfficial=0&page="+pageNumber+"&pullCount=0&q=REPLACE&starCount=0";
-			    	String url = "https://hub.docker.com/u/agileiot/?page="+pageNumber;
-			    	//url = url.replaceAll("REPLACE", query);
+			    	String url = "https://hub.docker.com/search/?isAutomated=0&isOfficial=0&page="+pageNumber+"&pullCount=0&q=REPLACE&starCount=0";
+			    	//String url = "https://hub.docker.com/u/agileiot/?page="+pageNumber;
+			    	url = url.replaceAll("REPLACE", "iot");
 				    URL u = new URL(url);
 				    InputStream in = u.openStream();
 				    InputStreamReader r = new InputStreamReader(in);
@@ -63,6 +63,8 @@ public class ParseDockerHub {
 			    	flag_ResultNotFound = true;
 			    else
 			    	size =AppMarketplace.appList.size();
+			    
+			    //flag_ResultNotFound = true;
 		    }
 		   
 	  }

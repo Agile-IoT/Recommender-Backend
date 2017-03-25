@@ -153,35 +153,49 @@ public class Recommenders {
 	
 	private static String getQuery(GatewayProfile profi, int type){
 		
-		String query  = "Raspberry";
+		String query  = "";
 		String query1 = "";
 		String query2 = "";
 		String query3 = "";
 		
 		if(profi.apps.getAppList()!=null)
 		for(int i=0;i<profi.apps.getAppList().size();i++){
-			query1 = profi.apps.getAppList().get(i).getTitle();
+			query1 = profi.apps.getAppList().get(i).getTitle()+"*~";
 			if(type==1) // device recommendation
 				query1 = query1+"^4";
-			query = query+" OR "+ query1;
+			
+			if(query!="")
+				query = query+" OR "+ query1;
+			else
+				query = query1;
 		}
 		
 		if(profi.wfs.getWfList()!=null)
 		for(int i=0;i<profi.wfs.getWfList().size();i++){
-			query2 = profi.wfs.getWfList().get(i).getDatatag();
+			query2 = profi.wfs.getWfList().get(i).getDatatag()+"*~";
 			if(type==1) // device recommendation
 				query1 = query1+"^4";
-			query = query+" OR "+ query2;
+			
+			if(query!="")
+				query = query+" OR "+ query2;
+			else
+				query = query2;
 		}
 		
 		if(profi.devices.getDeviceList()!=null)
 		for(int i=0;i<profi.devices.getDeviceList().size();i++){
-			query3 = profi.devices.getDeviceList().get(i).getTitle();
+			query3 = profi.devices.getDeviceList().get(i).getTitle()+"*~";
 			if(type==0 || type==2) // app or wf recommendation
 				query3 = query3+"^4";
-			query = query+" OR "+ query3;
+			
+			if(query!="")
+				query = query+" OR "+ query3;
+			else
+				query = query3;
 		}
 		
+		if (query=="")
+			query="iot*~";
 		return query;
 	}
 
