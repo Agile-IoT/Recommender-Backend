@@ -119,5 +119,6 @@ public class Cloud {
 	public void setPricing(String pricing) {
 		this.pricing = pricing;
 	}
+
 	
 }

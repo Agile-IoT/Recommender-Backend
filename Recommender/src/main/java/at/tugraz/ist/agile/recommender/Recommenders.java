@@ -172,7 +172,7 @@ public class Recommenders {
 		
 		if(profi.wfs.getWfList()!=null)
 		for(int i=0;i<profi.wfs.getWfList().size();i++){
-			query2 = profi.wfs.getWfList().get(i).getDatatag()+"*~";
+			query2 = profi.wfs.getWfList().get(i).getDatatag().replaceAll(",", " OR ");
 			if(type==1) // device recommendation
 				query1 = query1+"^4";
 			

@@ -90,12 +90,12 @@ public class RecommendCloud {
 	}
 	
 	public void generateQuery(GatewayProfile profile){
+		
 	
-		String[] fields= {"locations","pricing"};
-		String[] queries = {profile.getLocation(),profile.getPricingPreferences().replaceAll(",", " OR ")};
+		String[] fields= {"locations","pricing","services","runtimes"};
+		String[] queries = {profile.getLocation(),profile.getPricingPreferences().replaceAll(",", " OR "),profile.getRequiredServices().replaceAll(",", " OR "),"node"};
 	
-		BooleanClause.Occur[] flags = {BooleanClause.Occur.MUST,
-		                BooleanClause.Occur.SHOULD};
+		BooleanClause.Occur[] flags = {BooleanClause.Occur.MUST, BooleanClause.Occur.SHOULD, BooleanClause.Occur.MUST, BooleanClause.Occur.MUST};
 		 
 		 
 		MultiFieldQueryParser queryParserCloud = new MultiFieldQueryParser(queries, CloudMarketplace.analyzer_cloud);
