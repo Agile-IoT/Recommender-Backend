@@ -36,18 +36,7 @@ import org.eclipse.agail.recommenderserver.models.Workflow;
 public class ParseNodeRed {
 
 //	  public static void main(String[] args) {
-//	    ParserGetter kit = new ParserGetter();
-//	    HTMLEditorKit.Parser parser = kit.getParser();
-//	    HTMLEditorKit.ParserCallback callback = new ReportAttributes();
-//
-//	    try {
-//	      URL u = new URL("http://flows.nodered.org/");
-//	      InputStream in = u.openStream();
-//	      InputStreamReader r = new InputStreamReader(in);
-//	      parser.parse(r, callback, false);
-//	    } catch (IOException e) {
-//	      System.err.println(e);
-//	    }
+//		  getWorkFlows();
 //	  }
 	  
 	  public static void getWorkFlows() {
@@ -105,7 +94,7 @@ public class ParseNodeRed {
 			  wfToBeAdded = new Workflow("node", null, null, null);
 		  else if(name.toString().contains("class") && value.toString().contains("gistbox-flow") )
 			  wfToBeAdded = new Workflow("flow", null, null, null);
-		  
+		 
 		 
 		  if(wfToBeAdded!=null){   
 			  //WorkFlow last = WorkFlowList.workflowList.get(size-1);
@@ -122,7 +111,6 @@ public class ParseNodeRed {
 			      System.out.println("WorkFlow #"+size+ " = Type:" + wfToBeAdded.type+ ", Href:" + wfToBeAdded.href);
 			      wfToBeAdded = null;
 		      }
-		    	  
 	      } 
 		      
 	    }

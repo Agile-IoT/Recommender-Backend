@@ -30,7 +30,8 @@ import org.springframework.web.bind.annotation.*;
 public class Controller_Recommender {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Controller_Recommender.class);
-	 
+	
+	private static boolean initFlag = false;
 
 	public static void initiate() {
 		
@@ -53,9 +54,7 @@ public class Controller_Recommender {
 		ParseCloud.getClouds();
 		CloudMarketplace.stopAddingToMarketplace();
 		
-
-		
-	
+		initFlag = true;
 	}
   
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -69,6 +68,9 @@ public class Controller_Recommender {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
+		if (!initFlag)
+			initiate();
+		
 		return "home";
 	}
     
@@ -80,12 +82,13 @@ public class Controller_Recommender {
 		return prof;
 	}
 
-    @RequestMapping(value = "/updateRepositories", method = RequestMethod.GET)
-	public String updateRepositories() {
-    	initiate();
-    	return "home";
-		
-	}
+//    @RequestMapping(value = "/updateRepositories", method = RequestMethod.GET)
+//    public String updateRepositories() {
+//    	initiate();
+//    	return "home";
+//		
+//	}
+	
     @RequestMapping(value = "/getRepositoryStatus", method = RequestMethod.GET)
    	public @ResponseBody String getRepositoryStatus() {
    		String status = "";
@@ -131,5 +134,4 @@ public class Controller_Recommender {
 		return clList;
 	}
 	
-   
 }

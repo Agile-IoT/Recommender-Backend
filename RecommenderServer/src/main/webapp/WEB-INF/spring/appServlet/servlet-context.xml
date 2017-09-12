@@ -21,6 +21,6 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
-	<context:component-scan base-package="at.tugraz.ist.agile.recommender" />
+	<context:component-scan base-package="org.eclipse.agail.recommenderserver" />
 
 </beans:beans>

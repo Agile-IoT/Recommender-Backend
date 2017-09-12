@@ -12,11 +12,18 @@
 package org.eclipse.agail.recommenderserver;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.eclipse.agail.recommenderserver.collaborative.CollaborativeFiltering;
@@ -28,6 +35,27 @@ import org.eclipse.agail.recommenderserver.models.*;
 
 public class Recommenders {
 	
+//	public static void main(String [] args){
+//		
+//		// TEST
+//		Workflow wf = new Workflow();
+//		//wf.setType("node");
+//		//wf.setHref("/node/node-red-contrib-ftp-server");
+//		
+//		wf.setType("flow");
+//		wf.setHref("/flow/51f68bd87a897caa5c3148457cc084c0");
+//		
+//		
+//		List wfList = new ArrayList<Workflow>();
+//		wfList.add(wf);
+//		
+//		ListOfWFs totalList = new ListOfWFs();
+//		totalList.setWfList(wfList);
+//		
+//		totalList = updateFlowsNodes(totalList);
+//		
+//	}
+//	
 	public static ListOfApps getAppRecommendations(GatewayProfile profile){
 		
 		String query = getQuery(profile,0);
@@ -102,7 +130,7 @@ public class Recommenders {
 		//return recommendWf.recommendedWorkflows;
 		
 		ListOfWFs recommondedWf_CB = recommendWf.recommendedWorkflows;
-
+		
 		CollaborativeFiltering cf = new CollaborativeFiltering();
 		ListOfWFs recommondedWf_CF = cf.getWorkflowRecommendation(profile);
 		
@@ -110,8 +138,9 @@ public class Recommenders {
 		totalList.getWfList().addAll(recommondedWf_CF.getWfList());
 		totalList.getWfList().addAll(recommondedWf_CB.getWfList());
 		
-		return totalList;
+		totalList = updateFlowsNodes(totalList);
 		
+		return totalList;
 		
 	}
 	
@@ -205,6 +234,91 @@ public class Recommenders {
 
 		
 		return query;
+	}
+	
+	
+    
+    private static ListOfWFs updateFlowsNodes(ListOfWFs wflist){
+		
+    	for (int i=0;i<wflist.getWfList().size();i++){
+    		
+    		// UPDATE LINK
+    		wflist.getWfList().get(i).setHref("https://flows.nodered.org"+wflist.getWfList().get(i).getHref());
+    		
+			char [] out = new char[12000];
+			URL url;
+			try {
+				
+				url = new URL(wflist.getWfList().get(i).getHref().toString());
+				HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
+				con.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+		        con.connect();
+				InputStream input = con.getInputStream();
+				byte[] bytes = IOUtils.toByteArray(input);
+		
+				String str = new String(bytes);
+				String substr = str;
+				// ADD DESCRIPTION
+				// flow-description"> or "flow-title">
+				int start = str.lastIndexOf("flow-description\">");
+				if (start!=-1){
+					substr = str.substring(start);
+					start = substr.indexOf(">");
+					start += 1;
+					substr = substr.substring(start);
+				}
+				
+				else{
+					start = str.lastIndexOf("flow-title\">");
+					start += 12;
+					substr = str.substring(start);
+					start = substr.indexOf("<p>");
+					start += 3;
+					substr = substr.substring(start);
+				}
+				
+				int end = substr.indexOf("</p>");
+				String desc = substr.substring(0, end);
+				wflist.getWfList().get(i).setDescription(desc);
+				
+				
+				
+				// ADD JS CODE
+				if(wflist.getWfList().get(i).getType().equals("flow")){
+					
+					start = str.indexOf("javascript\">");
+					start += 12;
+					substr = str.substring(start);
+					end = substr.indexOf("</pre>");
+					
+					String code = substr.substring(0, end);
+					code = code.replace("&quot;", "\"");
+					code = code.replace("&lt;", "<");
+					code = code.replace("&gt;", ">");
+					code = code.replace("&#x3D;", "=");
+					code = code.replace("&#39;", "'");
+					code = code.replace("&#x2F;", "/");
+					wflist.getWfList().get(i).setJavascriptCode(code);
+				}
+				
+				// ADD INSTALL COMMAND
+				if(wflist.getWfList().get(i).getType().equals("node")){
+					start = str.indexOf("<code>npm install ");
+					start += 6;
+					substr = str.substring(start);
+					end = substr.indexOf("</code>");
+					
+					String command = substr.substring(0, end);
+					wflist.getWfList().get(i).setInstallCommand(command);
+				}
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+    	
+		return wflist;
 	}
 
 }
