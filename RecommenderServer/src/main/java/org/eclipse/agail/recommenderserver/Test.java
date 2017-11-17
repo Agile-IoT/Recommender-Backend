@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
 import org.apache.mahout.cf.taste.impl.neighborhood.ThresholdUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
@@ -42,11 +43,22 @@ public class Test {
 	public static void main(String[] args){
 		
 		//testFiles();
-		testCollaborativeFiltering();
+		//testCollaborativeFiltering();
 		//testgetAppRecommendation(); // size= 2
 		//testgetDeviceRecommendation();  // size= 2
 		//testgetWFRecommendation(); // size= 3
+		decodingHtml();
 	}
+
+	public static void decodingHtml(){
+
+		StringEscapeUtils util = new StringEscapeUtils();
+		String test = "&quot; &lt; &gt; &#x3D; &#39; &#x2F;";
+		System.out.println("Before: "+test);
+		test = util.unescapeHtml4(test);
+		System.out.println("After: "+test);
+	}
+
 	
 	public static void testFiles(){
 		System.out.println(cf.userProfilesFile);

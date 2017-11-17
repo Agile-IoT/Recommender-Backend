@@ -24,6 +24,7 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.eclipse.agail.recommenderserver.collaborative.CollaborativeFiltering;
@@ -196,7 +197,7 @@ public class Recommenders {
 	
 	private static String getQuery(GatewayProfile profi, int type){
 		
-		String query  = "a~ OR b~";
+		String query  = "iot~ OR i~";
 		String query1 = "";
 		String query2 = "";
 		String query3 = "";
@@ -204,9 +205,11 @@ public class Recommenders {
 		if(profi.apps.getAppList()!=null)
 		for(int i=0;i<profi.apps.getAppList().size();i++){
 			query1 = "\""+profi.apps.getAppList().get(i).getTitle()+"\""+"~";
-			if(type==1) // device recommendation
+			query1 = query1.replace(" ", " OR ");
+			if(type==1){ // device recommendation
+				query1 = query1.replace(" OR ", "^4 OR ");
 				query1 = query1+"^4";
-			
+			}
 			query = query+" OR "+query1;
 			
 		}
@@ -214,9 +217,11 @@ public class Recommenders {
 		if(profi.wfs.getWfList()!=null)
 		for(int i=0;i<profi.wfs.getWfList().size();i++){
 			query2 = "\""+profi.wfs.getWfList().get(i).getDatatag().replaceAll(","," ")+ "\"";
-			if(type==1) // device recommendation
-				query1 = query1+"^4";
-			
+			query2 = query2.replace(" ", " OR ");
+			if(type==1 || type==2){ // device or wf recommendation
+				query2 = query2.replace(" OR ", "^4 OR ");
+				query2 = query2+"^4";
+			}
 			query = query+" OR "+ query2;
 			
 		}
@@ -224,15 +229,18 @@ public class Recommenders {
 		if(profi.devices.getDeviceList()!=null)
 		for(int i=0;i<profi.devices.getDeviceList().size();i++){
 			query3 = "\""+profi.devices.getDeviceList().get(i).getTitle()+"\""+"~";
-			if(type==0 || type==2) // app or wf recommendation
+			query3 = query3.replace(" ", " OR ");
+			if(type==0 || type==2){ // app or wf recommendation
+				query3 = query3.replace(" OR ", "^4 OR ");
 				query3 = query3+"^4";
+			}
 			
 			query = query+" OR "+query3;
 			
 		}
 		
-
 		
+		query = query.replace("\"", "");
 		return query;
 	}
 	
@@ -291,13 +299,16 @@ public class Recommenders {
 					substr = str.substring(start);
 					end = substr.indexOf("</pre>");
 					
+					StringEscapeUtils util = new StringEscapeUtils();
+					
 					String code = substr.substring(0, end);
-					code = code.replace("&quot;", "\"");
-					code = code.replace("&lt;", "<");
-					code = code.replace("&gt;", ">");
-					code = code.replace("&#x3D;", "=");
-					code = code.replace("&#39;", "'");
-					code = code.replace("&#x2F;", "/");
+					code = util.unescapeHtml4(code);
+//					code = code.replace("&quot;", "\"");
+//					code = code.replace("&lt;", "<");
+//					code = code.replace("&gt;", ">");
+//					code = code.replace("&#x3D;", "=");
+//					code = code.replace("&#39;", "'");
+//					code = code.replace("&#x2F;", "/");
 					wflist.getWfList().get(i).setJavascriptCode(code);
 				}
 				
