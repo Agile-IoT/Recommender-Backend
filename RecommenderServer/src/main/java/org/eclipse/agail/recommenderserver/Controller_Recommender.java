@@ -10,7 +10,12 @@
 
 package org.eclipse.agail.recommenderserver;
 
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -46,7 +51,6 @@ public class Controller_Recommender {
 		ParseNodeRed.getWorkFlows();
 		WorkflowMarketplace.stopAddingToMarketplace();
 		
-	
 		
 		initFlag = true;
 	}
@@ -59,9 +63,59 @@ public class Controller_Recommender {
 		if (!initFlag)
 			initiate();
 				
-		model.addAttribute("wfs", WorkflowMarketplace.size);
-		model.addAttribute("devs", DeviceMarketplace.size);
-		model.addAttribute("clouds", CloudMarketplace.size);
+		
+		try {
+			Thread.sleep(50000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	
+		
+		
+		List<String> cloudsRepoLines = new ArrayList<String>();
+		Path cloudsRepo = Paths.get(System.getProperty("user.dir")+"\\Clouds");
+		List<String> wfsRepoLines = new ArrayList<String>();
+		Path wfsRepo = Paths.get(System.getProperty("user.dir")+"\\Workflows");
+		List<String> devicesRepoLines= new ArrayList<String>();
+		Path devicesRepo = Paths.get(System.getProperty("user.dir")+"\\Devices");
+	    try {    
+	    	cloudsRepoLines = Files.readAllLines(cloudsRepo, StandardCharsets.UTF_8);
+	    	wfsRepoLines = Files.readAllLines(wfsRepo, StandardCharsets.UTF_8);
+	    	devicesRepoLines = Files.readAllLines(devicesRepo, StandardCharsets.UTF_8);
+	    } catch (Exception e) {}
+	    
+	    for(int i=0;i<cloudsRepoLines.size();i++){
+	    	String[]vals = cloudsRepoLines.get(i).split(":");
+	    	cloudsRepoLines.set(i,"https:"+vals[vals.length-1]);
+	    }
+	    
+	    for(int i=0;i<devicesRepoLines.size();i++){
+	    	if(devicesRepoLines.get(i).contains("gp/slredirect")){
+	    		devicesRepoLines.remove(i);
+	    	}
+	    	else{
+	    		String[]vals = devicesRepoLines.get(i).split(":");
+	    		devicesRepoLines.set(i,"https:"+vals[vals.length-1]);
+	    	}
+	    }
+	    
+	    for(int i=0;i<wfsRepoLines.size();i++){
+	    	String[]vals = wfsRepoLines.get(i).split(":");
+	    	wfsRepoLines.set(i,"https:"+vals[vals.length-1]);
+	    }
+	       
+		
+		model.addAttribute("wfs", wfsRepoLines.size());
+		model.addAttribute("devs", devicesRepoLines.size());
+		model.addAttribute("clouds", cloudsRepoLines.size());
+		
+		// ====== changes from here based on Aeseir's answer========
+	    
+	    model.addAttribute("workflowList", wfsRepoLines);
+	    model.addAttribute("deviceList", devicesRepoLines);
+	    model.addAttribute("cloudList", cloudsRepoLines);
+	       // ======= changes until here ==============
 		
 		return "home";
 	}
