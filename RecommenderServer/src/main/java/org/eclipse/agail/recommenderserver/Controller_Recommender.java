@@ -62,16 +62,6 @@ public class Controller_Recommender {
 		
 		if (!initFlag)
 			initiate();
-				
-		
-		try {
-			Thread.sleep(50000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	
-		
 		
 		List<String> cloudsRepoLines = new ArrayList<String>();
 		Path cloudsRepo = Paths.get(System.getProperty("user.dir")+"\\Clouds");
@@ -91,13 +81,8 @@ public class Controller_Recommender {
 	    }
 	    
 	    for(int i=0;i<devicesRepoLines.size();i++){
-	    	if(devicesRepoLines.get(i).contains("gp/slredirect")){
-	    		devicesRepoLines.remove(i);
-	    	}
-	    	else{
-	    		String[]vals = devicesRepoLines.get(i).split(":");
-	    		devicesRepoLines.set(i,"https:"+vals[vals.length-1]);
-	    	}
+	    	String[]vals = devicesRepoLines.get(i).split(":");
+	    	devicesRepoLines.set(i,"https:"+vals[vals.length-1]);
 	    }
 	    
 	    for(int i=0;i<wfsRepoLines.size();i++){
