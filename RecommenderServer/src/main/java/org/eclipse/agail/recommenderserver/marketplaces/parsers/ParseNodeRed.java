@@ -10,6 +10,7 @@
 package org.eclipse.agail.recommenderserver.marketplaces.parsers;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -27,6 +29,7 @@ import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 
+import org.eclipse.agail.recommenderserver.FileOperations;
 import org.eclipse.agail.recommenderserver.marketplaces.WorkflowMarketplace;
 import org.eclipse.agail.recommenderserver.models.Workflow;
 
@@ -37,7 +40,11 @@ public class ParseNodeRed {
 //		  getWorkFlows();
 //	  }
 	  
+	 
+	 
 	  public static void getWorkFlows() {
+		    String url_repo = System.getProperty("user.dir")+"\\Workflows";
+		    FileOperations.cleanFile(url_repo);
 		    ParserGetter kit = new ParserGetter();
 		    HTMLEditorKit.Parser parser = kit.getParser();
 		    HTMLEditorKit.ParserCallback callback = new ReportAttributes();
@@ -60,19 +67,33 @@ public class ParseNodeRed {
 				      falseAttemptCounter++;
 			    }
 		   }
+		   try{
+		   Thread.sleep(10000);}
+		   catch(Exception ex){}
+		   
+		   if(WorkflowMarketplace.workflowList.size()==0){
+			   try {
+				    InputStreamReader r = new InputStreamReader(ParseNodeRed.class.getClassLoader().getResourceAsStream("NodeRED.html"),StandardCharsets.UTF_8); 
+				    parser.parse(r, callback, true);
+			    } catch (IOException e) {
+				      System.err.println(e);
+			    }
+		    }
+		   
 	  }
 	 	  
 	}
 
 	class ReportAttributes extends HTMLEditorKit.ParserCallback {
 
+		
 	  Workflow wfToBeAdded = null;
 	  public void handleStartTag(HTML.Tag tag, MutableAttributeSet attributes, int position) {
 	     this.listAttributes(attributes);
 	  }
 
 	  private void listAttributes(AttributeSet attributes) {
-		
+		String url_repo = System.getProperty("user.dir")+"\\Workflows";
 	    Enumeration e = attributes.getAttributeNames();
 	    int size = 0;
 	    while (e.hasMoreElements()) {
@@ -106,7 +127,10 @@ public class ParseNodeRed {
 		      if(name.toString().contains("href") && ((value.toString().contains("/node/") || value.toString().contains("/flow/")) && wfToBeAdded.getType()!=null && wfToBeAdded.getHref()==null)){
 		    	  wfToBeAdded.setHref(value.toString());
 		    	  WorkflowMarketplace.addNewWorkFlow(wfToBeAdded);
-			      System.out.println("WorkFlow #"+size+ " = Type:" + wfToBeAdded.type+ ", Href:" + wfToBeAdded.href);
+			      String newLine= "WorkFlow #"+(size+1)+ " = Type:" + wfToBeAdded.type+ ", Href:" + wfToBeAdded.href;
+				  System.out.println(newLine);
+				  FileOperations.appendNewLineToFile(url_repo, newLine);
+			      
 			      wfToBeAdded = null;
 		      }
 	      } 

@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -24,6 +24,7 @@ import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 
+import org.eclipse.agail.recommenderserver.FileOperations;
 import org.eclipse.agail.recommenderserver.marketplaces.DeviceMarketplace;
 import org.eclipse.agail.recommenderserver.models.Device;
 
@@ -46,31 +47,25 @@ public class ParseDeviceStore {
 	  
 	  public static boolean flag_ResultNotFound = false;
 	  public static int falseAttemptCounter=0;
-	  
+	 	
+	   
 	  public static void getDevList() {
+		    String url_repo = System.getProperty("user.dir")+"\\Devices";
+			 
 		  	flag_ResultNotFound= false;
 		  	DeviceMarketplace.devList.clear();
 		    ParserGetter kit = new ParserGetter();
 		    HTMLEditorKit.Parser parser = kit.getParser();
 		    HTMLEditorKit.ParserCallback callback = new ReportAttributes_dev();
 		    int pageNumber = 1;
+		    FileOperations.cleanFile(url_repo);
 		    //System.setProperty("http.agent", "");
+		    
+		    
 		    while(!flag_ResultNotFound){
 			    try {
-			    	//String url = "https://www.amazon.de/s/ref=nb_sb_noss_2?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=node%3D2076361031&field-keywords=raspberry";
-			    	//String url = "https://www.amazon.de/s/ref=sr_pg_2?rh=n%3A80084031%2Cn%3A2076361031%2Ck%3Araspberry&page="+pageNumber+"&keywords=raspberry&ie=UTF8N";
-			    	//String url = "https://www.amazon.com/s/ref=sr_pg_3?fst=as%3Aoff&rh=n%3A172282%2Cn%3A541966%2Cn%3A193870011%2Ck%3Araspberry&page="+pageNumber+"&keywords=raspberry&ie=UTF8&qid=1489160336&spIA=B01CNOWH3S,B01C6Q2GSY,B01C6Q4GLE,B01CYX4HRM";
 			    	String u = "https://www.amazon.com/s/ref=sr_pg_"+pageNumber+"?rh=n%3A172282%2Cn%3A541966%2Cn%3A193870011%2Ck%3Araspberry&page="+pageNumber+"&keywords=raspberry&ie=UTF8";
-//			    	// System.setProperty("http.agent", ""); 
-//			    	//url = url.replaceAll("REPLACE", query);
-//				    URL u = new URL(url);
-//				    // URLConnection hc = u.openConnection();
-//			        // hc.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
-//
-//				    InputStream in = u.openStream();
-//				    InputStreamReader r = new InputStreamReader(in);
-//				    parser.parse(r, callback, false);
-				    
+		    	
 				    URL url=new URL(u);
 			           
 		   	        HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
@@ -89,30 +84,50 @@ public class ParseDeviceStore {
 			    	try {
 						Thread.sleep(10000);
 					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 			    	
 			    }
-			    // flag_ResultNotFound = true;
 			    
 			    if(falseAttemptCounter>10)
 			    	flag_ResultNotFound = true;
 		    }
+		    
+		    try {
+				Thread.sleep(100000);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		    
+		    if(DeviceMarketplace.devList.size()==0){
+		    	try {
+		    		InputStreamReader r = new InputStreamReader(ParseNodeRed.class.getClassLoader().getResourceAsStream("Amazon.html"),StandardCharsets.UTF_8); 
+					parser.parse(r, callback, true);
+			    	
+				    flag_ResultNotFound = false;
+			    } catch (IOException e) {
+			    	System.err.println(e);
+			    }
+		    	
+		    }
+		    	
 		   
 	  }
 
 	}
 	class ReportAttributes_dev extends HTMLEditorKit.ParserCallback {
 
+      //public URL url_repo = ParseCloud.class.getClassLoader().getResource("Devices");
+     		
 	  Device devToBeAdded = null;
-		
+		 	
 	  public void handleStartTag(HTML.Tag tag, MutableAttributeSet attributes, int position) {
 	     this.listAttributes(attributes);
 	  }
 
 	  private void listAttributes(AttributeSet attributes) {
-		
+		String url_repo = System.getProperty("user.dir")+"\\Devices";
+			
 	    Enumeration e = attributes.getAttributeNames();
 	    int size = 0;
 	    
@@ -138,7 +153,9 @@ public class ParseDeviceStore {
 				  devToBeAdded.setHref(value.toString());
 				  devToBeAdded.setTitle(value.toString().split("/")[3]);
 				  DeviceMarketplace.addNewDev(devToBeAdded);
-				  System.out.println("Dev #"+(size+1)+ " = Title:" + devToBeAdded.getTitle()+ ", Href:" + devToBeAdded.getHref());
+				  String newLine= "Dev #"+(size+1)+ " = Title:" + devToBeAdded.getTitle()+ ", Href:" + devToBeAdded.getHref();
+				  System.out.println(newLine);
+				  FileOperations.appendNewLineToFile(url_repo, newLine);
 				  devToBeAdded = null;
 				  
 			  }

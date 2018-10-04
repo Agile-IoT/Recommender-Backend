@@ -28,61 +28,13 @@ import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.eclipse.agail.recommenderserver.collaborative.CollaborativeFiltering;
 import org.eclipse.agail.recommenderserver.marketplaces.CloudMarketplace;
-import org.eclipse.agail.recommenderserver.marketplaces.parsers.ParseGooglePlayStore;
 import org.eclipse.agail.recommenderserver.marketplaces.parsers.ParseNodeRed;
 import org.eclipse.agail.recommenderserver.models.*;
 
 
 public class Recommenders {
 	
-//	public static void main(String [] args){
-//		
-//		// TEST
-//		Workflow wf = new Workflow();
-//		//wf.setType("node");
-//		//wf.setHref("/node/node-red-contrib-ftp-server");
-//		
-//		wf.setType("flow");
-//		wf.setHref("/flow/51f68bd87a897caa5c3148457cc084c0");
-//		
-//		
-//		List wfList = new ArrayList<Workflow>();
-//		wfList.add(wf);
-//		
-//		ListOfWFs totalList = new ListOfWFs();
-//		totalList.setWfList(wfList);
-//		
-//		totalList = updateFlowsNodes(totalList);
-//		
-//	}
-//	
-	public static ListOfApps getAppRecommendations(GatewayProfile profile){
-		
-		String query = getQuery(profile,0);
-		
-		RecommendApps recommendApp = new RecommendApps();
-	
-		try {
-			recommendApp.getRecommendation(query);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		CollaborativeFiltering cf = new CollaborativeFiltering();
-		ListOfApps recommondedApps_CF = cf.getAppRecommendation(profile);
-		
-		ListOfApps recommondedApps_CB = recommendApp.recommendedApps;
-		ListOfApps totalList = new ListOfApps(); 
-		totalList.getAppList().addAll(recommondedApps_CF.getAppList());
-		totalList.getAppList().addAll(recommondedApps_CB.getAppList());
-		return totalList;
-	}
-	
+
 	public static ListOfDevices getDevRecommendations(GatewayProfile profile){
 		
 		String query = getQuery(profile,1);

@@ -34,41 +34,34 @@ public class Controller_Recommender {
 
 	public static void initiate() {
 		
-	
-		AppMarketplace.initiate();
-		ParseDockerHub.getAppList();
-		AppMarketplace.stopAddingToMarketplace();
+		CloudMarketplace.initiate();
+		ParseCloud.getClouds();
+		CloudMarketplace.stopAddingToMarketplace();
 		
+		DeviceMarketplace.initiate();
+		ParseDeviceStore.getDevList();
+		DeviceMarketplace.stopAddingToMarketplace();
 		
 		WorkflowMarketplace.initiate();
 		ParseNodeRed.getWorkFlows();
 		WorkflowMarketplace.stopAddingToMarketplace();
 		
-		
-		DeviceMarketplace.initiate();
-		ParseDeviceStore.getDevList();
-		DeviceMarketplace.stopAddingToMarketplace();
 	
-		CloudMarketplace.initiate();
-		ParseCloud.getClouds();
-		CloudMarketplace.stopAddingToMarketplace();
 		
 		initFlag = true;
 	}
   
     @RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
+    	
 		logger.info("Welcome to the AGILE Gateway Recommender Service! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
 		
 		if (!initFlag)
 			initiate();
+				
+		model.addAttribute("wfs", WorkflowMarketplace.size);
+		model.addAttribute("devs", DeviceMarketplace.size);
+		model.addAttribute("clouds", CloudMarketplace.size);
 		
 		return "home";
 	}
@@ -91,19 +84,13 @@ public class Controller_Recommender {
     @RequestMapping(value = "/getRepositoryStatus", method = RequestMethod.GET)
    	public @ResponseBody String getRepositoryStatus() {
    		String status = "";
-   		status += "Number Of Apps: "+AppMarketplace.size; 
-   		status += ", Number Of Workflows: "+WorkflowMarketplace.size; 
+   		status += "Number Of Workflows: "+WorkflowMarketplace.size; 
    		status += ", Number Of Devices: "+DeviceMarketplace.size; 
    		status += ", Number Of Clouds: "+CloudMarketplace.size; 
    		return status;
    	}
     
-	@RequestMapping(value = "/getAppRecommendation", method = RequestMethod.POST)
-	public @ResponseBody ListOfApps getAppRecommendation(@RequestBody GatewayProfile profile) {
-		ListOfApps appList = new ListOfApps();
-		appList = Recommenders.getAppRecommendations(profile);
-		return appList;
-	}
+	
 	
 	@RequestMapping(value = "/getDeviceRecommendation", method = RequestMethod.POST)
 	public @ResponseBody ListOfDevices getDeviceRecommendation(@RequestBody GatewayProfile profile) {

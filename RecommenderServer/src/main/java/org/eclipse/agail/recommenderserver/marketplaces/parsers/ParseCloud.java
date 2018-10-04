@@ -9,19 +9,22 @@
  **********************************************************************/
 package org.eclipse.agail.recommenderserver.marketplaces.parsers;
 
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Properties;
 
+import org.eclipse.agail.recommenderserver.FileOperations;
 import org.eclipse.agail.recommenderserver.marketplaces.CloudMarketplace;
 import org.eclipse.agail.recommenderserver.marketplaces.WorkflowMarketplace;
 import org.eclipse.agail.recommenderserver.models.Cloud;
 
 public class ParseCloud {
 	
-
 	public static void getClouds() {
-		 
+		    String url_repo = System.getProperty("user.dir")+"\\Clouds";
+		    FileOperations.cleanFile(url_repo);
 			Properties prop = new Properties();
 			InputStream input = null;
 		
@@ -33,6 +36,7 @@ public class ParseCloud {
 			            System.out.println("Sorry, unable to find " + filename);
 				    return;
 				}
+			
 		
 				//load a properties file from class path, inside static method
 				prop.load(input);
@@ -51,6 +55,10 @@ public class ParseCloud {
 				for(int i=0; i<titles.length;i++){
 					Cloud cloudToBeAdded = new Cloud(titles[i],links[i],accesstype[i],locations[i],middlewares[i],frameworks[i],runtimes[i],services[i],pricing[i]);
 					System.out.println(cloudToBeAdded.getTitle());
+					String newLine= "Cloud #"+(i+1)+ " = Name:" + titles[i]+ ", Href:" + links[i];
+					System.out.println(newLine);
+					FileOperations.appendNewLineToFile(url_repo, newLine);
+				    
 					CloudMarketplace.addNewCloud(cloudToBeAdded);
 				}
 				
@@ -65,6 +73,7 @@ public class ParseCloud {
 				}
 		    	}    
 		   }
+		 
 	 }
 
 }

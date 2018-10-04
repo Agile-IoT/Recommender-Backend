@@ -9,7 +9,12 @@
  **********************************************************************/
 package org.eclipse.agail.recommenderserver;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +30,7 @@ import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.recommender.UserBasedRecommender;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.eclipse.agail.recommenderserver.collaborative.CollaborativeFiltering;
+import org.eclipse.agail.recommenderserver.marketplaces.parsers.ParseCloud;
 import org.eclipse.agail.recommenderserver.models.App;
 import org.eclipse.agail.recommenderserver.models.GatewayProfile;
 import org.eclipse.agail.recommenderserver.models.ListOfApps;
@@ -45,9 +51,31 @@ public class Test {
 		//testgetAppRecommendation(); // size= 2
 		//testgetDeviceRecommendation();  // size= 2
 		//testgetWFRecommendation(); // size= 3
-		decodingHtml();
+		
+	}
+	
+	public static void printPath() {
+	    String path = String.format("%s/%s", System.getProperty("user.dir"), FileOperations.class.getClass().getPackage().getName().replace(".", "/"));
+	    System.out.println(path);
 	}
 
+	public static void relativePath(){
+		FileOperations op = new FileOperations();
+		String filename = "files\\Clouds";
+		op.cleanFile(filename);
+		op.appendNewLineToFile(filename, "hebele");
+//		try{
+//			  String str = "World";
+//			    BufferedWriter writer = new BufferedWriter(new FileWriter("files\\Clouds"));
+//			    writer.append(' ');
+//			    writer.append(str);
+//			     
+//			    writer.close();
+//		 
+//		 }
+//		catch(Exception ex)
+//		{}
+	}
 	public static void decodingHtml(){
 
 		StringEscapeUtils util = new StringEscapeUtils();
