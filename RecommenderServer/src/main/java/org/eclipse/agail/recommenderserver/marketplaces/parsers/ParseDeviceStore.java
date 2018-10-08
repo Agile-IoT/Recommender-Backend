@@ -50,7 +50,8 @@ public class ParseDeviceStore {
 	 	
 	   
 	  public static void getDevList() {
-		    String url_repo = System.getProperty("user.dir")+"\\Devices";
+		  
+		    //String url_repo = System.getProperty("user.dir")+"\\Devices";
 			 
 		  	flag_ResultNotFound= false;
 		  	DeviceMarketplace.devList.clear();
@@ -58,7 +59,7 @@ public class ParseDeviceStore {
 		    HTMLEditorKit.Parser parser = kit.getParser();
 		    HTMLEditorKit.ParserCallback callback = new ReportAttributes_dev();
 		    int pageNumber = 1;
-		    FileOperations.cleanFile(url_repo);
+		    //FileOperations.cleanFile(url_repo);
 		    //System.setProperty("http.agent", "");
 		    
 		    
@@ -126,7 +127,7 @@ public class ParseDeviceStore {
 	  }
 
 	  private void listAttributes(AttributeSet attributes) {
-		String url_repo = System.getProperty("user.dir")+"\\Devices";
+		// String url_repo = System.getProperty("user.dir")+"\\Devices";
 			
 	    Enumeration e = attributes.getAttributeNames();
 	    int size = 0;
@@ -150,14 +151,14 @@ public class ParseDeviceStore {
 		  
 		  if(devToBeAdded!=null){ 
 			  if(name.toString().contains("href")){
-				  devToBeAdded.setHref(value.toString());
-				  devToBeAdded.setTitle(value.toString().split("/")[3]);
-				  DeviceMarketplace.addNewDev(devToBeAdded);
-				  String newLine= "Dev #"+(size+1)+ " = Title:" + devToBeAdded.getTitle()+ ", Href:" + devToBeAdded.getHref();
-				  System.out.println(newLine);
-				  FileOperations.appendNewLineToFile(url_repo, newLine);
+				  if(!value.toString().contains("picassoRedirect")){
+					  devToBeAdded.setHref(value.toString());
+					  devToBeAdded.setTitle(value.toString().split("/")[3]);
+					  DeviceMarketplace.addNewDev(devToBeAdded);
+					  String newLine= "Dev #"+(size+1)+ " = Title:" + devToBeAdded.getTitle()+ ", Href:" + devToBeAdded.getHref();
+					  System.out.println(newLine);
+				  } // FileOperations.appendNewLineToFile(url_repo, newLine);
 				  devToBeAdded = null;
-				  
 			  }
 		  }
 		

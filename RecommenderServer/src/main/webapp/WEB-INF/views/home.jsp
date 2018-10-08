@@ -22,6 +22,8 @@ div.ex1 {
 </h1>
 <P>
 <a href="http://agile-iot.eu/">AGILE</a> (Adaptive & Modular Gateway for the IoT) is a modular gateway for the Internet of Things with support of a <a href="http://agile.ist.tugraz.at:8080/doc/">Recommender Service</a> on it.
+<br> Numbers and links of recommendable items in the latest status of the AGILE Recommender Server's repository are shown below.
+
 </P>
 
 
@@ -105,7 +107,7 @@ div.ex1 {
 </ol> 
 </div>
 
-
+<br><br><br>
 <iframe src="resources/info.pdf" style="height:2100px;width:900px" align="left"">
 
 This browser does not support PDFs. Please download the PDF to view it: <a href="resources/info.pdf">Download PDF</a>

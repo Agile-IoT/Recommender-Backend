@@ -43,8 +43,8 @@ public class ParseNodeRed {
 	 
 	 
 	  public static void getWorkFlows() {
-		    String url_repo = System.getProperty("user.dir")+"\\Workflows";
-		    FileOperations.cleanFile(url_repo);
+		    //String url_repo = System.getProperty("user.dir")+"\\Workflows";
+		    //FileOperations.cleanFile(url_repo);
 		    ParserGetter kit = new ParserGetter();
 		    HTMLEditorKit.Parser parser = kit.getParser();
 		    HTMLEditorKit.ParserCallback callback = new ReportAttributes();
@@ -93,7 +93,7 @@ public class ParseNodeRed {
 	  }
 
 	  private void listAttributes(AttributeSet attributes) {
-		String url_repo = System.getProperty("user.dir")+"\\Workflows";
+		//String url_repo = System.getProperty("user.dir")+"\\Workflows";
 	    Enumeration e = attributes.getAttributeNames();
 	    int size = 0;
 	    while (e.hasMoreElements()) {
@@ -125,11 +125,12 @@ public class ParseNodeRed {
 		    	  wfToBeAdded.setDataowner(value.toString());
 		      
 		      if(name.toString().contains("href") && ((value.toString().contains("/node/") || value.toString().contains("/flow/")) && wfToBeAdded.getType()!=null && wfToBeAdded.getHref()==null)){
-		    	  wfToBeAdded.setHref(value.toString());
+		    	  String [] parsedLink = value.toString().split("https");
+		    	  wfToBeAdded.setHref("https"+parsedLink[parsedLink.length-1]);
 		    	  WorkflowMarketplace.addNewWorkFlow(wfToBeAdded);
 			      String newLine= "WorkFlow #"+(size+1)+ " = Type:" + wfToBeAdded.type+ ", Href:" + wfToBeAdded.href;
 				  System.out.println(newLine);
-				  FileOperations.appendNewLineToFile(url_repo, newLine);
+				  //FileOperations.appendNewLineToFile(url_repo, newLine);
 			      
 			      wfToBeAdded = null;
 		      }

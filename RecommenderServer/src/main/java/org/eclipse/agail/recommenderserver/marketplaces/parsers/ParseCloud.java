@@ -23,8 +23,8 @@ import org.eclipse.agail.recommenderserver.models.Cloud;
 public class ParseCloud {
 	
 	public static void getClouds() {
-		    String url_repo = System.getProperty("user.dir")+"\\Clouds";
-		    FileOperations.cleanFile(url_repo);
+		    //String url_repo = System.getProperty("user.dir")+"\\Clouds";
+		    //FileOperations.cleanFile(url_repo);
 			Properties prop = new Properties();
 			InputStream input = null;
 		
@@ -57,7 +57,7 @@ public class ParseCloud {
 					System.out.println(cloudToBeAdded.getTitle());
 					String newLine= "Cloud #"+(i+1)+ " = Name:" + titles[i]+ ", Href:" + links[i];
 					System.out.println(newLine);
-					FileOperations.appendNewLineToFile(url_repo, newLine);
+					//FileOperations.appendNewLineToFile(url_repo, newLine);
 				    
 					CloudMarketplace.addNewCloud(cloudToBeAdded);
 				}

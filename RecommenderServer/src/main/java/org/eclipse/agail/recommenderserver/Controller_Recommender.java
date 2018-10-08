@@ -43,13 +43,13 @@ public class Controller_Recommender {
 		ParseCloud.getClouds();
 		CloudMarketplace.stopAddingToMarketplace();
 		
-		DeviceMarketplace.initiate();
-		ParseDeviceStore.getDevList();
-		DeviceMarketplace.stopAddingToMarketplace();
-		
 		WorkflowMarketplace.initiate();
 		ParseNodeRed.getWorkFlows();
 		WorkflowMarketplace.stopAddingToMarketplace();
+		
+		DeviceMarketplace.initiate();
+		ParseDeviceStore.getDevList();
+		DeviceMarketplace.stopAddingToMarketplace();
 		
 		
 		initFlag = true;
@@ -63,45 +63,56 @@ public class Controller_Recommender {
 		if (!initFlag)
 			initiate();
 		
-		List<String> cloudsRepoLines = new ArrayList<String>();
-		Path cloudsRepo = Paths.get(System.getProperty("user.dir")+"\\Clouds");
-		List<String> wfsRepoLines = new ArrayList<String>();
-		Path wfsRepo = Paths.get(System.getProperty("user.dir")+"\\Workflows");
-		List<String> devicesRepoLines= new ArrayList<String>();
-		Path devicesRepo = Paths.get(System.getProperty("user.dir")+"\\Devices");
-	    try {    
-	    	cloudsRepoLines = Files.readAllLines(cloudsRepo, StandardCharsets.UTF_8);
-	    	wfsRepoLines = Files.readAllLines(wfsRepo, StandardCharsets.UTF_8);
-	    	devicesRepoLines = Files.readAllLines(devicesRepo, StandardCharsets.UTF_8);
-	    } catch (Exception e) {}
-	    
-	    for(int i=0;i<cloudsRepoLines.size();i++){
-	    	String[]vals = cloudsRepoLines.get(i).split(":");
-	    	cloudsRepoLines.set(i,"https:"+vals[vals.length-1]);
-	    }
-	    
-	    for(int i=0;i<devicesRepoLines.size();i++){
-	    	String[]vals = devicesRepoLines.get(i).split(":");
-	    	devicesRepoLines.set(i,"https:"+vals[vals.length-1]);
-	    }
-	    
-	    for(int i=0;i<wfsRepoLines.size();i++){
-	    	String[]vals = wfsRepoLines.get(i).split(":");
-	    	wfsRepoLines.set(i,"https:"+vals[vals.length-1]);
-	    }
-	       
-		
-		model.addAttribute("wfs", wfsRepoLines.size());
-		model.addAttribute("devs", devicesRepoLines.size());
-		model.addAttribute("clouds", cloudsRepoLines.size());
-		
-		// ====== changes from here based on Aeseir's answer========
-	    
-	    model.addAttribute("workflowList", wfsRepoLines);
-	    model.addAttribute("deviceList", devicesRepoLines);
-	    model.addAttribute("cloudList", cloudsRepoLines);
-	       // ======= changes until here ==============
-		
+		if (initFlag){
+			List<String> cloudsRepoLines = new ArrayList<String>(CloudMarketplace.size);
+			//Path cloudsRepo = Paths.get(System.getProperty("user.dir")+"\\Clouds");
+			List<String> wfsRepoLines = new ArrayList<String>(WorkflowMarketplace.size);
+			//Path wfsRepo = Paths.get(System.getProperty("user.dir")+"\\Workflows");
+			List<String> devicesRepoLines= new ArrayList<String>(DeviceMarketplace.size);
+			//Path devicesRepo = Paths.get(System.getProperty("user.dir")+"\\Devices");
+		   
+//			try {    
+//		    	cloudsRepoLines = Files.readAllLines(cloudsRepo, StandardCharsets.UTF_8);
+//		    	wfsRepoLines = Files.readAllLines(wfsRepo, StandardCharsets.UTF_8);
+//		    	devicesRepoLines = Files.readAllLines(devicesRepo, StandardCharsets.UTF_8);
+//		    } catch (Exception e) {}
+//		    
+//		    for(int i=0;i<cloudsRepoLines.size();i++){
+//		    	String[]vals = cloudsRepoLines.get(i).split(":");
+//		    	cloudsRepoLines.set(i,"https:"+vals[vals.length-1]);
+//		    }
+//		    
+//		    for(int i=0;i<devicesRepoLines.size();i++){
+//		    	String[]vals = devicesRepoLines.get(i).split(":");
+//		    	devicesRepoLines.set(i,"https:"+vals[vals.length-1]);
+//		    }
+//		    
+//		    for(int i=0;i<wfsRepoLines.size();i++){
+//		    	String[]vals = wfsRepoLines.get(i).split(":");
+//		    	wfsRepoLines.set(i,"https:"+vals[vals.length-1]);
+//		    }
+			
+			for(int i=0;i<CloudMarketplace.size;i++)
+				cloudsRepoLines.add(CloudMarketplace.cloudList.get(i).link);
+			
+			for(int i=0;i<WorkflowMarketplace.size;i++)
+				wfsRepoLines.add(WorkflowMarketplace.workflowList.get(i).href); 
+			
+			for(int i=0;i<DeviceMarketplace.size;i++)
+				devicesRepoLines.add(DeviceMarketplace.devList.get(i).getHref()); 
+		       
+			
+			model.addAttribute("wfs", wfsRepoLines.size());
+			model.addAttribute("devs", devicesRepoLines.size());
+			model.addAttribute("clouds", cloudsRepoLines.size());
+			
+			// ====== changes from here based on Aeseir's answer========
+		    
+		    model.addAttribute("workflowList", wfsRepoLines);
+		    model.addAttribute("deviceList", devicesRepoLines);
+		    model.addAttribute("cloudList", cloudsRepoLines);
+		       // ======= changes until here ==============
+		}
 		return "home";
 	}
     
